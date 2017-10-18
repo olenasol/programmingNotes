@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		 <meta charset="UTF-8">
+		<title>Hibernate</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<h1>Hibernate framework</h1>
+		<div class="list1">
+			<p>&emsp;&emsp;&emsp;&emsp;Зміст</p>
+			<ol>
+				<li><a href="#it1">Introduction</a></li>
+				<li><a href="#it2">Embeddable object</a></li>
+				<li><a href="#it3">Embeddable collections</a></li>
+				<li><a href="#it4">Relationships between objects</a></li>
+				<li><a href="#it5">Inheritance</a></li>
+				<li><a href="#it6">CRUD operations</a></li>
+				<li><a href="#it7">Object states</a></li>
+				<li><a href="#it8">HQL</a></li>
+				<li><a href="#it9">Criteria API</a></li>
+			</ol>
+		</div>
+		<p>
+			Програмний фреймворк (англ. software framework) — це готовий до використання комплекс програмних рішень, включаючи дизайн, логіку та базову функціональність системи або підсистеми.
+		</p>
+		<p>
+			ORM (англ. Object-relational mapping, Об'єктно-реляційна проекція) — технологія програмування, яка зв'язує бази даних з концепціями об'єктно-орієнтованих мов програмування, створюючи «віртуальну об'єктну базу даних».
+		</p>
+		<p>
+			Hibernate — засіб відображення між об'єктами та реляційними структурами (object-relational mapping, ORM) для платформи Java.
+		<p>
+		<p>
+			HQL- Hibernate Query Language
+		</p>
+		<p>
+		    Реалізує JPA.
+		</p>
+		<h3>Курс Hibernate</h3><br>
+		--------------1----------------<br>
+		<p id="it1">INTRODUCTION</p>
+		<p>Used in data layer of application.
+		</p>
+		--------------2----------------<br>
+		<p>Download jars, put them in user library and add this library to the project. Download and add JDBC driver according to used database.
+		</p>
+		--------------3----------------<br>
+		<p>
+			Hibernate Configuration File - hibernate.cfg.xml(properties - databesse connection settings,SQL Dialect,JDBC connection pool,second-level caache,drop and recreate schema on start-up,mapping - entity classes).
+		</p>
+		<p>
+			@Entity<br>
+			@Id<br>
+		</p>
+		<p class="code">
+		SessionFactory sessionFactory=new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();<br>
+		Session session=sessionFactory.openSession();<br>
+		session.beginTransaction();<br>
+		session.save(user);<br>
+		sesion.getTransaction().commit();<br>
+		</p>
+		<p>
+			Create session factory -> create session -> use to do CRUD operations
+		</p>
+		--------------4----------------<br>
+		<p class="code">
+			&lt;property name="hbm2ddl.auto"&gt;create&lt;/property&gt; - drop and recreate<br>
+			&lt;property name="hbm2ddl.auto"&gt;update&lt;/property&gt; - don't drop<br>
+		</p>
+		<p>
+			@Entity(name="user")<br>
+			@Column(name="user_name")<br>
+			Annotations can be above getters.
+		</p>
+		--------------5----------------<br>
+		<p>
+			@Table(name="user_table")<br>
+			@Basic - apply hibernate defaults to field(default)<br> 
+			@Transient - do not create this column<br>
+			@Temporal(TemporalType.DATE) - save only date not time<br>
+			@Lob -this is large object
+		</p>
+		--------------6----------------<br>
+		<p class="code">
+			user u = (user) session.get(
+			                user.class, 3); // get user with id=3
+		</p>
+		--------------7----------------<br>
+		<p>
+			@Id@GeneratedValue - generate primary key automatically<br>
+			@GeneratedValue(strategy=GenerationType.AUTO) -default, hibernate makes the best decision based on database<br>
+			@GeneratedValue(strategy=GenerationType.IDENTITY) - uses database feature IDENTITY <br>
+			@GeneratedValue(strategy=GenerationType.SEQUENCE) - uses hibernate Sequence object<br>
+			@GeneratedValue(strategy=GenerationType.TABLE) - separate table that holds last primary key<br>
+		</p>
+		--------------8----------------<br>
+		<p id="it2">EMBEDDABLE OBJECT</p>
+		<p>
+			In order to add value object(not entity) to some entity, we use annotations<br>
+			@Embeddable - in value object class<br>
+			@Embedded - in entity class<br>
+			It adds columns with value object field names to entity table.
+		</p>
+		--------------9----------------<br>
+		<p>
+			@AtributesOverrides({Holds list of individual attribute's overrides annotations})<br>
+			@AttributeOverride - reconfigure default or configured attributes of embedded object<br>
+			@AttributeOverride(name="field_name", column = @Column(name="new_name")) - overrides column name<br>
+			@EmbeddedId - if id is value object
+		</p>
+		--------------10----------------<br>
+		<p id="it3">EMBEDDABLE COLLECTIONS</p>
+		<p>
+			@ElementCollection<br>
+			private Set&lt;Address&gt; list=new HashSet&lt;Address&gt;();<br>
+			Adds collection elements in another table with id reference to the main object<br>
+		</p>
+		--------------11----------------<br>
+		<p>
+		@JoinTable(name="join_table_name") - rename join table(collections)<br>
+		@JoinTable(name="join_table_name",joinColumns=@JoinColumn(name="Join_column_name"))<br>
+		In order to have id column in collection table:<br>
+		1)hashset -> arraylist<br>
+		2)@GenericGenerator(name = "generator", strategy ="increment"  )- hibernate specific<br>
+		3)@CollectionId(columns={@Column(name="Collection_Id")}, generator = "generator", type = @Type(type="long")) - hibernate specific<br>
+		</p>
+		--------------12----------------<br>
+		<p>
+			If user has collection in it, do we get whole collection or just user details?<br>
+			1)Lazy Fetch - you get the data only when you need it(list is fetched only when u.getAdressList() is called) - default;<br>
+			2)Eager - get all information  - @ElementCollection(fetch=FetchType.EAGER)<br>
+			Lazy fetch is possible due to Proxy Class(it gets it the first time). Proxy Class is subclass of Entity Class and has all its methods.It fills anly first-level values. get returns proxy class. Proxy Class fetches values from database and then calls parent method. After session is closed, proxy object cannot get data from databese and throws exception.<br>
+		</p>
+		--------------13----------------<br>
+		<p id ="it4">RELATIONSHIPS BETWEEN ENTITIES</p>
+		<p>
+			Different relationships between Entity Classes<br>
+			We have two entities - User and Vehicle.<br>
+			Add to one Entity field of another Entity. Than it creates column in table that points to another Entity table(by primary key).<br>
+			@OneToOne<br>
+			@JoinColumn(name="joined_name") - can be added<br>
+			private Vehicle vehicle;<br> 
+		</p>
+		--------------14----------------<br>
+		<p>
+		In class User<br>
+		@OneToMany<br>
+		@JoinTable(name="USER_VEHICLE",joinColumns=@JoinColumn(name="USER_ID"),<br>
+		&emsp;&emsp;&emsp;&emsp;		   inverseJoinColumns=@JoinColumn(name="VEHICLE_ID"))<br>
+		private Collection&lt;Vehicle&gt; vehicle = new ArrayList&lt;Vehicle&gt;();<br> 
+		Creates new table which maps ids of two entities.<br>OR<br>
+		In class Vehicle<br>
+		@ManyToOne<br>
+		private User user;<br>
+		</p>
+		--------------15----------------<br>
+		<p>
+		If in relationship OneToMany we don't want seperate table to be created. Only additional column in Vehicle table is created.<br>
+		@OneToMany(mappedBy="user")<br>
+		private Collection&lt;Vehicle&gt; vehicle = new ArrayList&lt;Vehicle&gt;();<br> 
+		@ManyToOne<br>
+		@JoinColumn(name="USER_ID")<br>
+		private User user;<br>
+		<br>
+		@ManyToMany
+		private Collection&lt;Vehicle&gt; vehicles = new ArrayList&lt;Vehicle&gt;();<br> 
+		@ManyToMany(mappedBy="vehicles") - is not doing the mapping;without mappedBy two tables are created<br>
+		private Collection&lt;User&gt; users = new ArrayList&lt;UserS&gt;();<br> 
+		</p>
+		--------------16----------------<br>
+		<p>
+			@NotFound(action=NotFoundAction.IGNORE) - do not throw exception if mapped value equals to null; hibernate specific<br>
+			Hibernate supports List/ArrayList,Set,Map<br>
+			@OneToMany(cascade=CascadeType.PERSIST) - save referenced entity object automatically<br>
+			session.persist(user);<br>
+			CascadeType.ALL - all operations are cascaded.
+		</p>
+		--------------17----------------<br>
+		<p id="it5">INHERITANCE</p>
+		<p>
+			@Entity<br>
+			@Inheritance(strategy=InheritanceType.SINGLE_TABLE) - default configuration<br>
+			@DiscriminatorColumn(name="VEHICLE_TYPE",discriminatorType=DiscriminatorType.STRING)<br>
+			public class vehicle<br>
+			@Entity<br>
+			@DiscriminatorValue("Busss")<br>
+			public class bus extends vehicle<br>
+			@Entity<br>
+			public class bus extends vehicle<br>
+		</p>
+		--------------18----------------<br>
+		<img src="images/hibern_inh_st.png"><br>
+		--------------19----------------<br>
+		<p>
+			@Entity<br>
+			@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)<br>
+			public class vehicle{<br>
+			&emsp;@Id@GeneratedValue(strategy = GenerationType.TABLE) - cannot use auto,wont work with inherited types<br>
+			&emsp;private int id;<br>
+			<img src="images/hibern_inh_tpc.png"><br>
+		</p>
+		--------------20----------------<br>
+		<p>
+			@Entity<br>
+			@Inheritance(strategy=InheritanceType.JOINED)<br>
+			public class vehicle {<br>
+				&emsp;@Id@GeneratedValue<br>
+				&emsp;private int id;<br>
+			<img src="images/hibern_inh_j.png"><br>
+		</p>
+		--------------21----------------<br>
+		<p id="it6">CRUD OPERATIONS</p>
+		<p>
+			all using transactions<br>
+
+		</p>
+		<p class="code">
+		supplier  supp=new supplier();<br>
+		//create<br>
+		supp.setName("ccccc");<br>
+		session.beginTransaction();<br>
+		session.save(supp);<br>
+		//read<br>
+		category c = (category) session.get(category.class, 3);<br>
+		//updete=get c+change c + commit<br>
+		//delete<br>
+		session.delete(c);<br>
+		session.getTransaction().commit();<br>
+		</p>
+		--------------22----------------<br>
+		<p id="it7">OBJECT STATES</p>
+		<p>
+			Entity object states in Hibernate:
+		</p>
+		<ol>
+			<li>Transient Object - entity object created and session.save is not called. Not tracked.</li>
+			<li>Persistent Object - after session.save is called on object, it becomes tracked. The last update on object is executed automatically, because object state has to correspond to database state.</li>
+			<li>Detached Object - after session is closed. Not tracked.</li>
+		</ol>
+		--------------23----------------<br>
+		<img src="images/hibernate_states.png"><br>
+		--------------24----------------<br>
+		<p>
+			In order to make detached object persistent again, open new session and use statement session.update(user). It will create update statement despite of object being changed between sessions or not.<br>
+			@org.hibernate.annotations.Entity(selectBeforeUpdate=true) - checks if update needed before updating
+		</p>
+		--------------25----------------<br>
+		<p id="it8">HQL</p>
+		<p>
+			import org.hibernate.Query;<br>
+			Query q=session.createQuery("from supplier"); // supplier - object name,not table<br>
+			List&lt;supplier&gt; results = q.list();<br>
+			Query q=session.createQuery("from supplier where id&it;=2");<br>
+		</p>
+		--------------26----------------<br>
+		<p>
+			Pagination in HQL<br>
+			Query q=session.createQuery("from supplier");<br>
+			q.setFirstResult(5); //start pulling records from fifth<br>
+			q.setMaxResults(6); //number of records to pull <br>
+			Select in HQL<br>
+			Query&lt;String> q=session.createQuery("select name from supplier");<br>
+			List&lt;String> results = q.list();<br>
+			Query&lt;Integer> q=session.createQuery("select max(id) from supplier");<br>
+		</p>
+		--------------27----------------<br>
+		<p>
+			String st="5 or 1=1"; //can be user input<br>
+		Query&lt;supplier> q=session.createQuery(" from supplier where id>"+st); //pulls all records<br>
+			Conclusion: using SQL injection can cause problems.<br>
+			 Parameter Binding <br>
+			 String st="2";<br>String name="green tea";<br>
+		Query<supplier> q=session.createQuery(" from supplier where id>? and name=?"); // ? - placeholder<br>
+		q.setInteger(0, Integer.parseInt(st)); // 0 -position if we have multiple placeholders<br>
+		q.setString(1,name);<br>
+		<br>
+			Query&lt;supplier> q=session.createQuery(" from supplier where id>:ID and name=:NAME");<br>
+		q.setInteger("ID", Integer.parseInt(st));<br>
+		q.setString("NAME",name);<br>
+		</p>
+		--------------28----------------<br>
+		<p>
+			Named queries are used to get all queries in one place and then just call them by their names.<br>
+			@Entity<br>
+			@NamedQuery(name="supplier.byId",query="from supplier where id=?")<br>
+			public class supplier <br><br>
+			Query&lt;supplier> q=session.getNamedQuery("supplier.byId");<br>
+			q.setInteger(0, 2);<br>
+			<br>
+			@NamedNativeQuery(name="supplier.byName",query="select * from supplier where name=?",resultClass=supplier.class) // teble name (SQL query)<br>
+			Query&lt;supplier> q=session.getNamedNativeQuery("supplier.byName");<br>
+		</p>
+		--------------29----------------<br>
+		<p id="it9">CRITERIA API</p>
+		<p>
+			 
+			 Criteria criteria=session.createCriteria(supplier.class);<br>
+			 criteria.add(Restrictions.eq("name","green tea"));<br>
+			 List&lt;supplier> results = criteria.list();<br>
+
+		</p>
+		--------------30----------------<br>
+		<p>
+			criteria.add(Restrictions.eq("name","green tea"))<br>
+		&emsp;&emsp;&emsp;		.add(Restrictions.gt("id",3));<br>
+			criteria.add(Restrictions.like("name","%e%"))<br>
+			&emsp;&emsp;&emsp;	.add(Restrictions.between("id", 2, 5));<br>
+				criteria.add(Restrictions.or(Restrictions.lt("id", 2),Restrictions.like("name", "pull%") ));<br>
+		</p>
+		--------------31----------------<br>
+		<p>
+			Projections - choose columns,agregations,group by.<br>
+			Criteria criteria=session.createCriteria(supplier.class)<br>
+			&emsp;&emsp;	.setProjection(Projections.property("name"));<br>
+			List&lt;String> results = criteria.list();<br>
+			Criteria criteria=session.createCriteria(supplier.class)<br>
+			&emsp;&emsp;	.setProjection(Projections.max("id"));<br>
+		List&lt;Integer> results = criteria.list();<br>
+			Criteria criteria=session.createCriteria(supplier.class)<br>
+			&emsp;&emsp;	.setProjection(Projections.property("name"))<br>
+			&emsp;&emsp;	.addOrder(Order.desc("name"));<br>
+			<br>
+			Query By Example - ignores null properties, primary key properties and any other indicated properties.<br>
+			supplier s =new supplier();<br>
+		s.setName("mal inc");<br>
+		Example e=Example.create(s).excludeProperty("age");<br>
+		Criteria criteria=session.createCriteria(supplier.class)<br>
+			&emsp;&emsp;	.add(e);<br>
+
+		</p>
+		--------------32----------------<br>
+		CACHEING<br>
+		<img src="images/hibern_cache.png"><br>
+		
+		
+		<h1>JPA</h1>
+		<p>
+			Java Persistence API — стандартизований інтерфейс для Java ORM фреймворків. Виник через популярність вільного ORM фреймворку Hibernate, та бажання мати незалежний від конкретної реалізації стандарт.
+		</p>
+		<p>
+			Entity (сутність/утворення) — об'єкт для якого забезпечується ORM. Класи Entity задаються аннотацією @Entity або перелічуються у XML дескрипторі. Клас Entity повинен мати конструктор без аргументів, з рівнем доступу — public або protected. Якщо сутність передається як віддалений об'єкт (remote object), вона має реалізувати інтерфейс Serializable. Клас Entity не може бути завершеним (final) або мати завершені методи.
+		</p>
+		<a href="spring.html"><img src="images/next.png" width="200px" height="150px"></a>
+	</body>
+</html>	

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Design Patterns</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		<h1>Шаблони програмування</h1>
+		<ul>
+			<li>Твірні шаблони</li>
+			<dl>
+				<dt class="buitem">Factory</dt>
+				<dd>
+					<p>
+						Створення об'єкта, не показуючи логіку створення клієнту. Звертаємося до новоствореного об'єкта використовуючи загальний інтерфейс.
+					</p>
+					<img src="images/factory_pattern_uml_diagram.jpg">
+					<p class="code">
+						 public Shape getShape(String shapeType){<br>
+      					&emsp;if(shapeType == null){<br>
+         				&emsp;&emsp;return null;<br>
+      					&emsp;}		<br>
+      					&emsp;if(shapeType.equalsIgnoreCase("CIRCLE")){<br>
+         				&emsp;&emsp;return new Circle();<br>
+         
+      					&emsp;} else if(<br>shapeType.equalsIgnoreCase("RECTANGLE")){<br>
+       &emsp;&emsp;					  return new Rectangle();<br>
+         		&emsp;			}<br>
+         					}<br>
+         					<br>
+         					public static void main(String[] args) {<br>
+      &emsp;ShapeFactory shapeFactory = new ShapeFactory();<br>
+
+      &emsp;Shape shape1 = shapeFactory.getShape("CIRCLE");<br>
+
+      &emsp;shape1.draw();<br>
+      }
+					</p>
+				</dd>
+				<dt class="buitem">Builder</dt>
+
+				<dd>
+					<p>
+					Будує складний об'єкт, використовуючи прості об'єкти і покроковий підхід. Builder не залежить від інших об'єктів.
+					</p>
+					<img src="images/builder_pattern_uml_diagram.jpg">
+					<p class="code">
+						public class MealBuilder {<br>
+
+ 						&emsp;  public Meal prepareVegMeal (){<br>
+      					&emsp;&emsp;	Meal meal = new Meal();<br>
+      					&emsp;&emsp;	meal.addItem(new VegBurger());<br>
+      					&emsp;&emsp;	meal.addItem(new Coke());<br>
+      					&emsp;&emsp;	return meal;<br>
+   					&emsp;	}   <br>
+
+					}<br>
+					<br>
+					 public static void main(String[] args) {<br>
+   
+     &emsp; MealBuilder mealBuilder = new MealBuilder();<br>
+
+      &emsp; Meal vegMeal = mealBuilder.prepareVegMeal();<br>
+      &emsp; vegMeal.showItems();<br>
+      }
+					</p>
+				</dd>
+				<dt class="buitem">Singleton</dt>
+				<dd>
+					<p>
+					Забезпечує створення єдиного об'єкта класу.
+					</p>
+					<img src="images/singleton_pattern_uml_diagram.jpg">
+					<p  class="code">
+					public class SingleObject {<br>
+
+   					
+  					 &emsp;private static SingleObject instance = new SingleObject();<br>
+
+   					
+   					&emsp;private SingleObject(){}<br>
+
+   					&emsp;public static SingleObject getInstance(){<br>
+      					&emsp;&emsp;return instance;<br>
+   					&emsp;}<br>
+   					}
+
+					</p>
+				</dd>
+			</dl>
+			<li>Структурні шаблони</li>
+			<dl>
+				<dt class="buitem">Adapter</dt>
+				<dd>
+					<p>
+						Працює як міст між двома несумісними інтерфейсами. Шаблон включає єдиний клас, який відповідає за поєднання функціональності незалежних інтерфейсів.
+					</p>
+					<p>
+						We are demonstrating use of Adapter pattern via following example in which an audio player device can play mp3 files only and wants to use an advanced audio player capable of playing vlc and mp4 files.
+					</p>
+					<img src="images/adapter_pattern_uml_diagram.jpg">
+					<p class="code">
+					public class AudioPlayer implements MediaPlayer {<br>
+   &emsp;MediaAdapter mediaAdapter; <br>
+
+   &emsp;@Override<br>
+   &emsp;public void play(String audioType, String fileName) {<br>		
+
+      &emsp;&emsp;//inbuilt support to play mp3 music files<br>
+      &emsp;&emsp;if(audioType.equalsIgnoreCase("mp3")){<br>
+         &emsp;&emsp;&emsp;System.out.println("Playing mp3 file. Name: " + fileName);			<br>
+      &emsp;&emsp;} <br>
+      
+     &emsp;&emsp; //mediaAdapter is providing support to play other file formats<br>
+      &emsp;&emsp;else if(audioType.equalsIgnoreCase("vlc") || audioType.equalsIgnoreCase("mp4")){<br>
+       &emsp;&emsp;&emsp;  mediaAdapter = new MediaAdapter(audioType);<br>
+       &emsp;&emsp;&emsp;  mediaAdapter.play(audioType, fileName);<br>
+      &emsp;&emsp;}<br>
+      
+      &emsp;&emsp;else{<br>
+       &emsp;  &emsp;&emsp;System.out.println("Invalid media. " + audioType + " format not supported");<br>
+      &emsp;&emsp;}<br>
+   &emsp;}   <br>
+}<br>
+<br>
+		public static void main(String[] args) {<br>
+     &emsp; AudioPlayer audioPlayer = new AudioPlayer();<br>
+
+     &emsp; audioPlayer.play("mp3", "beyond the horizon.mp3");<br>
+      }<br>
+					</p>
+				</dd>
+				<dt class="buitem">Decorator</dt>
+				<dd>
+					<p>
+						Дозволяє користувачеві додавати нову функціональність до існуючого об'єкта, не змінюючи його структуру. 
+					</p>
+					<p>
+						Шаблон стврює декоратор-клас, який огортає оригінальний клас і надає додаткову функціональність, зберігаючи початкові сигнатури методів.
+					</p>
+					<p>
+						We are demonstrating the use of decorator pattern via following example in which we will decorate a shape with some color without alter shape class.
+					</p>
+					<img src="images/decorator_pattern_uml_diagram.jpg">
+					<p class="code">
+					public abstract class ShapeDecorator implements Shape {<br>
+   &emsp;protected Shape decoratedShape;<br>
+
+   &emsp;public ShapeDecorator(Shape decoratedShape){<br>
+      &emsp;&emsp;this.decoratedShape = decoratedShape;<br>
+   &emsp;}<br>
+
+   &emsp;public void draw(){<br>
+      &emsp;&emsp;decoratedShape.draw();<br>
+   &emsp;}	<br>
+}<br>
+<br>
+				public class RedShapeDecorator extends ShapeDecorator {<br>
+
+   &emsp;public RedShapeDecorator(Shape decoratedShape) {<br>
+     &emsp;&emsp; super(decoratedShape);		<br>
+  &emsp; }<br>
+
+  &emsp; @Override<br>
+ &emsp;  public void draw() {<br>
+   &emsp;&emsp;   decoratedShape.draw();<br>	       
+  &emsp;&emsp;    setRedBorder(decoratedShape);<br>
+  &emsp; }<br>
+
+  &emsp; private void setRedBorder(Shape decoratedShape){<br>
+   &emsp;&emsp;   System.out.println("Border Color: Red");<br>
+  &emsp; }<br>
+}<br>
+<br>
+   public static void main(String[] args) {<br>
+
+      &emsp;Shape circle = new Circle();<br>
+
+      &emsp;Shape redCircle = new RedShapeDecorator(new Circle());<br>
+      }<br>
+					</p>
+				</dd>
+				<dt class="buitem">Proxy</dt>
+				<dd>
+					<p>
+						 It is an object that you insert in place of the "real" object in order to provide additional or different operations—these usually involve communication with a "real" object, so a proxy typically acts as a go-between.
+					</p>
+					<p>
+					Клас репрезентує функціональність іншого класу. Заміщує функціональність.
+					</p>
+					<p> ProxyImage is a a proxy class to reduce memory footprint of RealImage object loading. RealImage calls loadImige in its constructor.</p>
+					<img src="images/proxy_pattern_uml_diagram.jpg">
+					<p class="code">
+						public class RealImage implements Image {<br>
+
+   &emsp;private String fileName;<br>
+
+   &emsp;public RealImage(String fileName){<br>
+    &emsp;&emsp;  this.fileName = fileName;<br>
+    &emsp;&emsp;  loadFromDisk(fileName);<br>
+   &emsp;}<br>
+
+   &emsp;@Override<br>
+   &emsp;public void display() {<br>
+    &emsp;&emsp;  System.out.println("Displaying " + fileName);<br>
+   &emsp;}<br>
+
+   &emsp;private void loadFromDisk(String fileName){<br>
+   &emsp;&emsp;   System.out.println("Loading " + fileName);<br>
+   &emsp;}<br>
+}<br>
+					</p>
+					<p class="code">
+						public class ProxyImage implements Image{<br>
+
+   &emsp;private RealImage realImage;<br>
+   &emsp;private String fileName;<br>
+
+   &emsp;public ProxyImage(String fileName){<br>
+   &emsp;&emsp;   this.fileName = fileName;<br>
+   &emsp;}<br>
+
+   &emsp;@Override<br>
+   &emsp;public void display() {<br>
+      &emsp;&emsp;if(realImage == null){<br>
+        &emsp;&emsp;&emsp; realImage = new RealImage(fileName);<br>
+      &emsp;&emsp;}<br>
+      &emsp;&emsp;realImage.display();<br>
+   &emsp;}<br>
+}<br>
+<br>
+public static void main(String[] args) {<br>
+      &emsp;Image image = new ProxyImage("test_10mb.jpg");<br>
+
+     &emsp; //image will be loaded from disk<br>
+     &emsp; image.display(); <br>      
+  &emsp;    //image will not be loaded from disk<br>
+     &emsp; image.display(); 	<br>
+   }<br>
+					</p>
+				</dd>
+			</dl>
+			<li>Повидінкові шаблони</li>
+			<dl>
+				<dt class="buitem">Chain of Responsibility</dt>
+				<dd>
+					<p>
+						Створює ланцюг об'єктів-отримувачів для запиту. Шаблон роз'єднує відправника і одержувача запита, базуючись на типі запита.  
+					</p>
+					<p>
+						Зазвичай кожний отримувач містить посилання на іншого отримувача. Якщо один об'єкт не може опрацювати запит, то він його передає наступному одержувачу.
+					</p>
+					<img src="images/chain_pattern_uml_diagram.jpg">
+					<p class="code">
+
+					</p>
+				</dd>
+				<dt class="buitem">Observer</dt>
+				<dd>
+					<p>
+					Вкористовується, коли є відношення один-до-багатьох між об'єктами в тому розумінні, що якщо один об'єкт змінюється, то залежні об'єкти змінюються автоматично. 
+					</p>
+					<img src="images/observer_pattern_uml_diagram.jpg">
+				</dd>
+				<dt class="buitem">Iterator</dt>
+				<dd>
+					<p>
+						
+					</p>
+					<img src="images/iterator_pattern_uml_diagram.jpg">
+				</dd>
+			</dl>
+		</ul>
+		<a href="http.html"><img src="images/next.png" width="200px" height="150px"></a>
+	</body>
+</html>	

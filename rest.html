@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<title>REST</title>
+	</head>
+	<body>
+	<h1>REST</h1>
+	<p>
+		REST (Representational state transfer) - тиль архітектури програмного забезпечення для розподілених систем(World Wide Web), який використовується для побудови веб-служб.
+	</p>
+	<p>REST - простий інтерфейс для управління інформацією без використання яких небудь внутрішніх прослойок. Кожна одиниця інформації однозначно визначається URL (book/3/page/35). Немає значення в якому форматі знаходяться дані за цією адресою. Управління інформацією відбувається за допомогою HTTP методів: GET,POST,PUT,DELETE.
+	</p>
+	<p>REST-Patterns по різному зв'язують HTTP методи з тим, що вони роблять(PUT,POST).</p>
+	<h1>Архітектурні обмеження</h1>
+	<ul>
+		<li><strong>клієнт-серверна архітектура</strong> - розподілення відповідальності між компонентами сервера і клієнта.</li>
+		<li> взаємодії між сервером та клієнтом <strong>не мають стану</strong>, тобто кожен запит містить всю необхідну інформацію для його обробки. Відсутність стану означає, що сервер не знає про стан клієнта. Коли клієнт, наприклад, запитує головну сторінку сайту, сервер відповідає на запитання і забуває про клієнта. Таким чином, наприклад дані про стан сесії (користувача, який автентифікувався) зберігаються на клієнті, і передаються з кожним запитом. </li>
+		<li> системи, написані в цьому стилі, <strong>повинні підтримувати кешування</strong>, тобто дані, які передаються між сервером повинні містити інформацію про те, чи можна їх кешувати, і якщо можна, то як довго.</li>
+		<li>
+			Всі компоненти в архітектурі REST підтримують однорідний інтерфейс. 
+			<ol>
+				<li>Resource identification in requests(example via URI)</li>
+				<li>Resource manipulation through representations( have representation is enough to perform delete, update)</li>
+				<li>Self-descriptive messages</li>
+				<li>Hypermedia as the engine of application state (HATEOAS)</li>
+			</ol>
+		</li>
+		<li>поділ на <strong>шари абстракції</strong>.</li>
+		<li>клієнти повинні дозволяти розширювати свою функціональність дозволяючи <strong>завантаження додаткового коду</strong></li>
+	</ul>
+	<h1>Web service</h1>
+	<p>Web-служба - порграма, що працює в World Wide Web і доступ до якої надається по HTTP протоколу, а обмін інформацією йде з допомогою формата XML.</p>
+	<p>Ex. Facebook or Twitter provide web services. This is how app or game can be posted on facebook.</p>
+	<img src="images/Webservices.png">
+	<p>Три інстанції в межах веб-сервера:</p>
+	<ul>
+		<li>замовник(service requester)</li>
+		<li>виконавець(service provider)</li>
+		<li>каталог(service broker)</li>
+	</ul>
+	<p>
+		Коли служба розроблена, виконавець реєструє її в каталозі, де її може знайти потенційний замовник. Замовник, знайшовши в каталозі відповідну службу, імпортує звідти її  WSDL-специфікацію (Web Services Description Language) і у відповідності до неї розробляє своє ПЗ. WSDL описує формат запитів і відповідей, якими обмінюються замовник і виконавець в процесі роботи.
+	</p>
+	<h1>RESTful Web Services</h1>
+	<p>REST stands for REpresentational State Transfer. REST is a web standards based architecture and uses HTTP Protocol for data communication. It revolves around resources where every component is a resource and a resource is accessed by a common interface using HTTP standard methods.</p>
+	<p>REST Server simply provides access to resources and the REST client accesses and presents the resources. Here each resource is identified by URIs/ Global IDs. REST uses various representations to represent a resource like Text, JSON and XML.</p>
+	<p>A web service is a collection of open protocols and standards used for exchanging data between applications or systems.</p>
+	<p>To create web service Java has Jersey framework(implements JAX-RS 2.0 API - standard specification to create RESTful Web Services.). Postman - Chrome extention to test web services.</p>
+	<p>REST architecture treats every content as a resource.</p>
+	<code>&lt;protocol>://&lt;service-name>/&lt;ResourceType>/&lt;ResourceID></code>
+	<p>Caching refers to storing the server response in the client itself, so that a client need not make a server request for the same resource again and again. </p>
+	<p>JAX-RS stands for JAVA API for RESTful Web Services.</p>
+	<table>
+		<tr>
+			<td>@Path</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@GET,@PUT,@POST,@DELETE,@HEAD</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td@Produces</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@Consumes</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@PathParam</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@QueryParam</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@MatrixParam</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@HeaderParam</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@CookieParam</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@FormParam</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@DefaultValue</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>@Context</td>
+			<td></td>
+		</tr>
+	</table>
+	<p>JSON-JavaScript Object Notation</p>
+	</body>
+</html>

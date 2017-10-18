@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<title>HTTP</title>
+	</head>
+	<body>
+	<h1>HTTP Protocol</h1>
+	<p>HTTP — протокол передачі даних, що використовується в комп'ютерних мережах. Назва скорочена від <strong>H</strong>yper <strong>T</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol, протокол передачі гіпер-текстових документів</p>
+	<p>HTTP specification specifies how clients request data will be constructed and sent to the server, and how servers respond to these requests.</p>
+	<p>URL stands for Uniform Resource Locator.</p>
+	<p>Internet Protocol - IP.</p>
+	<p>The domain name servers(DNS) keep tables of machine names and their IP addresses.</p>
+	<p>80 port.</p>
+	<img src="images/cgiarch.gif">
+	<p>The HTTP client sends a request to the server in the form of a request method, URI, and protocol version, followed by a MIME-like message containing request modifiers, client information, and possible body content over a TCP/IP connection.</p>
+	<p>The HTTP server responds with a status line, including the message's protocol version and a success or error code, followed by a MIME-like message containing server information, entity metainformation, and possible entity-body content.</p>
+	<h2>Базові особливості</h2>
+	<ul>
+		<li>connectionless</li>
+		<p>The HTTP client ie. browser initiates an HTTP request and after a request is made, the client disconnects from the server and waits for a response. The server process the request and re-establish the connection with the client to send response back.</p>
+		<li>media independent</li>
+		<p> Any type of data can be sent by HTTP as long as both the client and server know how to handle the data content. </p>
+		<li>stateless</li>
+		<p> The server and client are aware of each other only during a current request. Afterwards, both of them forget about each other. </p>
+	</ul>
+	<h2>Параметри</h2>
+	<p class="code">
+		A general syntax of URI:<br>
+		URI = "http:" "//" host [ ":" port ] [ abs_path [ "?" query ]]<br>
+		http://abc.com:80/~smith/home.html<br>
+	</p>
+	<p>All HTTP date/time stamps MUST be represented in Greenwich Mean Time (GMT).</p>
+	<p>US-ASCII - default character set.</p>
+	<p>A content ecoding values indicate an encoding algorithm has been used to encode the content before passing it over the network. </p>
+	<p class="code">
+		Accept-encoding: gzip<br>
+		<br>
+		Accept: image/gif  //media types<br>
+		en, en-US, en-cockney, i-cherokee, x-pig-latin  //language tags<br>
+	</p>
+	<h2>Запити і відповіді</h2>
+	<p>HTTP is based on client-server architecture model and a stateless request/response protocol that operates by exchanging messages across a reliable TCP/IP connection.</p>
+	<p>These messages are consisted of requests from client to server and responses from server to client which will have following format:</p>
+	<p class="code">HTTP-message   = <Request> | <Response> ; HTTP/1.1 messages</p>
+	<p>HTTP request and HTTP response use a generic message format:</p>
+
+		<ul class="code">
+			<li>start-line = Request-Line | Status-Line</li>
+			<li>Zero or more header fields followed by CRLF</li>
+			<li>An empty line indicating the end of the header fields</li>
+			<li>Optionally a message-body</li>
+		</ul>
+	<p class="code">
+		Request-Line   = Method SP Request-URI SP HTTP-Version CRLF<br>
+		GET /hello.htm HTTP/1.1     (This is Request-Line sent by the client)<br><br>
+		Status-Line = HTTP-Version SP Status-Code SP Reason-Phrase CRLF<br>
+		HTTP/1.1 200 OK             (This is Status-Line sent by the server)<br>
+	</p>
+	
+		<img src="images/http_request.jpg">
+		
+	<p><em>Приклад. </em>Request message example</p>
+	<p class="code">
+		GET /hello.htm HTTP/1.1<br>
+		User-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)<br>
+		Host: www.tutorialspoint.com<br>
+		Accept-Language: en-us<br>
+		Accept-Encoding: gzip, deflate<br>
+		Connection: Keep-Alive<br>
+	</p>
+	<table>
+		<caption>Status code</caption>
+		<tr>
+			<th>code</th>
+			<th>description</th>
+		</tr>
+		<tr>
+			<td>1xx: Informational</td>
+			<td>This means request received and continuing process.</td>
+		</tr>
+		<tr>
+			<td>2xx: Success</td>
+			<td>This means the action was successfully received, understood, and accepted.</td>
+		</tr>
+		<tr>
+			<td>3xx: Redirection</td>
+			<td>This means further action must be taken in order to complete the request.</td>
+		</tr>
+		<tr>
+			<td>4xx: Client Error</td>
+			<td>This means the request contains bad syntax or cannot be fulfilled</td>
+		</tr>
+		<tr>
+			<td>5xx: Server Error</td>
+			<td>The server failed to fulfill an apparently valid request</td>
+		</tr>
+	</table>
+	<img src="images/http_response.jpg">
+	<p><em>Приклад. </em>Response Message Example</p>
+	<p class="code">
+		HTTP/1.1 200 OK<br>
+		Date: Mon, 27 Jul 2009 12:28:53 GMT<br>
+		Server: Apache/2.2.14 (Win32)<br>
+		Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT<br>
+		Content-Length: 88<br>
+		Content-Type: text/html<br>
+		Connection: Closed<br>
+
+		&lt;html><br>
+		&lt;body><br>
+		&emsp;&lt;h1>Hello, World!&lt;/h1><br>
+		&lt;/body><br>
+		&lt;/html><br>
+	</p>
+	<h2>Методи</h2>
+	<table>
+		<tr>
+			<th>Метод</th>
+			<th>Опис</th>
+		</tr>
+		<tr>
+			<td><strong>GET</strong></td>
+			<td> Використовується для того,щоб дістати інформацію з заданого сервера, використовуючи заданий  URI. </td>
+		</tr>
+		<tr>
+			<td><strong>POST</strong></td>
+			<td>Використовується для надсилання даних серверу.</td>
+		</tr>
+		<tr>
+			<td><strong>HEAD</strong></td>
+			<td>Аналогічний методу GET, за винятком того, що у відповіді сервера відсутнє тіло.</td>
+		</tr>
+		<tr>
+			<td><strong>PUT</strong></td>
+			<td>Завантажує вказаний ресурс на сервер.PUT operation is idempotent.</td>
+		</tr>
+		<tr>
+			<td><strong>PATCH</strong></td>
+			<td>Завантажує певну частину ресурсу на сервер.</td>
+		</tr>
+		<tr>
+			<td><strong>DELETE</strong></td>
+			<td>Видаляє вказаний ресурс..</td>
+		</tr>
+		<tr>
+			<td><strong>CONNECT</strong></td>
+			<td>Для використання разом з проксі-серверами, які можуть динамічно перемикатися в тунельний режим SSL.</td>
+		</tr>
+		<tr>
+			<td><strong>OPTIONS</strong></td>
+			<td>Повертає методи HTTP, які підтримуються сервером. </td>
+		</tr>
+		<tr>
+			<td><strong>TRACE</strong></td>
+			<td>Повертає отриманий запит так, що клієнт може побачити, що проміжні сервери додають або змінюють в запиті.</td>
+		</tr>
+		
+	</table>
+	<p>HTTP-cookie -  у комп'ютерній термінології поняття, яке використовується для опису інформації у вигляді текстових або бінарних даних, отриманих від веб-сайту на веб-сервері, яка зберігається у клієнта, тобто браузера, а потім відправлена на той самий сайт, якщо його буде повторно відвідано.</p>
+	<p>Cookies are text files stored on the client computer and they are kept for various information tracking purpose.</p>
+	<a href="servlets.html"><img src="images/next.png" width="200px" height="150px"></a>
+	</body>
+</html>
