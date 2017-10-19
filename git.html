@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Git</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+	<div class="list1">
+		<p>&emsp;&emsp;&emsp;&emsp;Зміст</p>
+		<ol>
+			<li><a  href="#a1">Базові означення</a></li>
+			<li><a  href="#a2">Основні команди</a></li>
+			<li></li>
+			<li></li>
+		</ol>	
+	</div>
+	<h1 id="a1">Базові означення</h1>
+	<p>
+		A <strong>version control system</strong> (VCS) allows you to track the history of a collection of files. 
+	</p>
+	<figure>
+		<img src="images/git1.webp" width="330px" height="180px">
+		<figcaption>Distributed VCS</figcaption>
+	</figure>
+	<p>
+		In a distributed version control system each user has a complete local copy of a repository on his individual computer. The user can copy an existing repository. This copying process is typically called cloning and the resulting repository can be referred to as a clone.
+	</p>
+	<p><strong>Git</strong> is currently the most popular implementation of a distributed version control system.</p>
+	<p>Types of repositories:</p>
+	<table>
+		<tr>
+			<th>bare</th>
+			<td>target server</td>
+			<td>do not allow the user to modify locally files </td>
+		</tr>
+		<tr>
+			<th>non-bare</th>
+			<td>target user</td>
+			<td>allow you to create new changes through modification of files </td>
+		</tr>
+	</table>
+	<p>States of files in the working tree</p>
+	<ul>
+		<li><em>untracked</em> - file never staged nor committed</li>
+		<li><em>tracked</em> - committesd and not staged</li>
+		<li><em>staged</em> - staged to be included in the next commit</li>
+		<li><em>modified</em> - file has changed and this change is not staged</li>
+	</ul>
+	<p>Git supports branching which means that you can work on different versions of your collection of files.</p>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Definition</th>
+		</tr>
+		<tr>
+			<td>Branch</td>
+			<td>is a named pointer to a commit. </td>
+		</tr>
+		<tr>
+			<td>Commit</td>
+			<td>When you commit your changes into a repository this creates a new commit object in the Git repository. This commit object uniquely identifies a new revision of the content of the repository.</td>
+		</tr>
+		<tr>
+			<td>HEAD</td>
+			<td>is a symbolic reference most often pointing to the currently checked out branch.</td>
+		</tr>
+		<tr>
+			<td>Index</td>
+			<td>Index is an alternative term for the staging area.</td>
+		</tr>
+		<tr>
+			<td>Repository</td>
+			<td>contains the history, the different versions over time and all different branches and tags.</td>
+		</tr>
+		<tr>
+			<td>Revision</td>
+			<td>a version of the source code.In Git - commit object.</td>
+		</tr>
+		<tr>
+			<td>Staging area</td>
+			<td>is the place to store changes in the working tree before the commit.</td>
+		</tr>
+		<tr>
+			<td>Tag</td>
+			<td>points to a commit which uniquely identifies a version of the Git repository. Branches move when a new commit is created while tags always point to the same commit.</td>
+		</tr>
+		<tr>
+			<td>Working tree</td>
+			<td>contains the set of working files for the repository.</td>
+		</tr>
+
+	</table>
+	<h1 id="a2">Основні команди</h1>
+	<ul>
+		<li class="code">git init &emsp;&emsp;#initialize Git repository in current location</li>
+		<li class="code">git status &emsp;&emsp;#get current project's state</li>
+		<li class="code">git add . &emsp;&emsp;#to add all files to staging area</li>
+		<li class="code">git add '*.txt'</li>
+		<li class="code">git commit -m "Some text" &emsp;&emsp;#to store staged changes with some description</li>
+		<li class="code">git log &emsp;&emsp;#get history of committed changes</li>
+		<li class="code">git remote add origin https://github.com/try-git/try_git.git&emsp;&emsp;#add remote repository with name 'origin'</li>
+		<li class="code">git push -u origin master&emsp;&emsp;#add local committed changes in branch 'master' to remote repository 'origin'. -u - save parameters</li>
+		<li class="code">git pull origin master&emsp;&emsp;#get changes from remote repository</li>
+		<li class="code">git diff HEAD&emsp;&emsp;#see difference from last commit</li>
+		<li class="code">git diff --staged&emsp;&emsp;#see staged changes</li>
+		<li class="code">git reset text.txt&emsp;&emsp;#unstage file text.txt</li>
+		<li class="code">git checkout -- cat.txt&emsp;&emsp;#get rid of all the changes since the last commit for cat.txt</li>
+		<li class="code">git branch diffStaff&emsp;&emsp;#create branch with name 'diffStaff'</li>
+		<li class="code">git checkout diffStaff&emsp;&emsp;#switch to 'diffStaff' branch</li>
+		<li class="code">git rm '*.txt'&emsp;&emsp;#removes files and stages the removal</li>
+		<li class="code">git merge diffStaff&emsp;&emsp;#merge current branch and branch 'diffStaff'</li>
+		<li class="code">git branch -d diffStaff&emsp;&emsp;#delete branch</li>
+	</ul>
+	</body>
+</html>
