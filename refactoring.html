@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Refactoring</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Composing methods</h1>
+	<ul>
+		<li>Extract method
+			<p>
+				You have a code fragment that can be grouped together. Turn the fragment into a method whose name explains the purpose of the method. 
+			</p>
+		</li>
+		<li>Inline method
+			<p>Replace all method calls with the body of method and delete method. Use whan too much indirection.</p>
+		</li>
+		<li>Inline temp</li>
+		<li>Replace temp with query
+			<p>You are using a temporary variable to hold the result of an expression. Extract the expression into a method. Replace all references to the temp with the expression. The new method can then be used in other methods.</p>
+		</li>
+		<li>Introduce explaining variable
+			<p>Put the result of the expression, or parts of the expression, in a temporary variable with a name that explains the purpose. Usually can be replaced with Extract method.</p>
+		</li>
+		<li>Split Temporary Variable 
+			<p>
+				You have a temporary variable assigned to more than once, but is not a loop variable nor a collecting temporary variable. Make a separate temporary variable for each assignment. 
+			</p>
+			<code> i = i + some expression // collecting variable</code>
+		</li>
+		<li>Remove Assignments to Parameters
+			<p>
+				<img src="images/no_par_assign.png">
+			</p>
+			<p>Pass by value and pass by reference problem.</p>
+		</li>
+		<li>Replace method with method object
+			<p>
+				You have a long method that uses local variables in such a way that you cannot apply Extract Method. Turn the method into its own object so that all the local variables become fields on that object. You can then decompose the method into other methods on the same object. Give the new class a final field for the object that hosted the original method and constructor that receives this object. 
+			</p>
+		</li>
+		<li>Substitute Algorithm
+			<p>Replace the body of the method with the new clearer algorithm.</p>
+		</li>
+	</ul>
+	<h1>Moving features between objects</h1>
+	<ul>
+		<li>Move method
+			<p>A method is using more features of another class than the class on which it is defined. </p>
+		</li>
+		<li>Move Field 
+			<p>
+				A field is used by another class more than the class on which it is defined. 		
+			</p>
+		</li>
+		<li>Extract class
+			<p>You have one class doing work that should be done by two. </p>
+		</li>
+		<li>Inline Class 
+			<p>A class isn't doing very much.</p>
+		</li>
+		<li>Hide Delegate 
+			<p>A client is calling a delegate class of an object. Create methods on the server to hide the delegate. Motivation - advantages of encapsulation.</p>
+			<p><img src="images/hide_deleg.png"></p>
+		</li>
+		<li>Remove middle man
+			<p>Opposite to hide delegate. Motivation - too much methods are delegated.</p>
+		</li>
+		<li>Introduce foreign method
+			<p>A server class you are using needs an additional method, but you can't modify the class. </p>
+			<p><img src="images/intr_foreign_method.png"></p>
+		</li>
+		<li>Introduce local extension
+			<p>A server class you are using needs several additional methods, but you can't modify the class. Create a new class that contains these extra methods. Make this extension class a subclass or a wrapper of the original. </p>
+		</li>
+	</ul>
+	<h1>Organizing data</h1>
+	<ul>
+		<li>Self encapsulate field
+			<p><img src="images/self_enc_field.png"></p>
+		</li>
+		<li>Replace data value with object
+			<p><img src="images/repl_data_value.png"></p>
+		</li>
+		<li style="color: red;">Change value to reference</li>
+		<li style="color: red;">Change reference to value</li>
+		<li>Replace array with object
+			<p><img src="images/repl_arr_obj.png"></p>
+		</li>
+		<li style="color: red;">Duplicate Observed Data
+			<p></p> 
+		</li>
+		<li style="color: red;">Change Unidirectional Association to Bidirectional </li>
+		<li style="color: red;">Change Bidirectional Association to Unidirectional </li>
+		<li style="color: red;">Replace Magic Number with Symbolic Constant </li>
+		<li>Encapsulate Field 
+			<p>Make public field private and provide accessors. </p>
+		</li>
+		<li>Encapsulate Collection 
+			<p>Method returns a collection. Provided methods:
+				<ol>
+					<li>Getter should return read-only for collection</li>
+					<li>Method that adds element to collection</li>
+					<li>Method that removes element from collection</li>
+				</ol>
+			</p>
+		</li>
+		<li style="color: red;"></li>
+
+	</ul>
+</body>
+</html>
