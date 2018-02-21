@@ -127,7 +127,119 @@
 	</ul>
 	<h1>Simplifying Conditional Expressions</h1>
 	<ul>
-		<li></li>
+		<li>Decompose Conditional 
+			<p>You have a complicated conditional (if-then-else) statement. Extract methods from the condition, then part, and else parts. </p>
+		</li>
+		<li>Consolidate Conditional Expression 
+			<p>You have a sequence of conditional tests with the same result. Combine them into a single conditional expression and extract it. </p>
+		</li>
+		<li>Consolidate Duplicate Conditional Fragments 
+			<p>The same fragment of code is in all branches of a conditional expression. Move it outside of the expression. </p>
+		</li>
+		<li>Remove Control Flag 
+			<p>You have a variable that is acting as a control flag for a series of boolean expressions. Use a break or return instead. </p>
+		</li>
+		<li>Replace Nested Conditional with Guard Clauses 
+			<p><img src="images/repl_nested_cond.png"></p>
+		</li>
+		<li>Replace Conditional with Polymorphism 
+			<p><img src="images/repl_cond_polymorphism.png"></p>
+		</li>
+		<li>Introduce Null Object 
+			<p>You have repeated checks for a null value. Replace the null value with a null object. Null objects are always constant: nothing about them ever changes (Singleton pattern). Move conditional behaviour inside null object. </p>
+			<p><img src="images/repl_null_check.png"></p>
+		</li>
+		<li>Introduce Assertion 
+			<p>A section of code assumes something about the state of the program. Make the assumption explicit with an assertion. </p>
+			<p>An assertion is a conditional statement that is assumed to be always true. Failure of an assertion indicates programmer error. </p>
+		</li>
+	</ul>
+	<h1> Making Method Calls Simpler </h1>
+	<ul>
+		<li>Rename method</li>
+		<li>Add parameter</li>
+		<li>Remove parameter</li>
+		<li>Separate Query from Modifier
+			<p>You have a method that returns a value but also changes the state of an object. Create two methods, one for the query and one for the modification. </p>
+		</li>
+		<li>Parameterize Method
+			<p><img src="images/param_method.png"></p>
+		</li>
+		<li>Replace Parameter with Explicit Methods 
+			<p><img src="images/repl_par_with_method.png"></p>
+		</li>
+		<li>Preserve Whole Object 
+			<p>You are getting several values from an object and passing these values as parameters in a method call. Send the whole object instead. </p>
+		</li>
+		<li>Replace Parameter with Method 
+			<p>An object invokes a method, then passes the result as a parameter for a method. The receiver can also invoke this method. Remove the parameter and let the receiver invoke the method. </p>
+		</li>
+		<li>Introduce Parameter Object 
+			<p>You have a group of parameters that naturally go together. Replace them with an object. </p>
+			<p><img src="images/intr_par_obj.png"></p>
+		</li>
+		<li>Remove Setting Method 
+			<p>A field should be set at creation time and never altered. Remove any setting method for that field. </p>
+		</li>
+		<li>Hide Method 
+			<p>A method is not used by any other class. Make the method private. </p>
+		</li>
+		<li>Replace Constructor with Factory Method 
+			<p><img src="images/repl_with_factory.png"></p>
+		</li>
+		<li>Encapsulate Downcast 
+			<p>A method returns an object that needs to be downcasted by its callers. Move the downcast to within the method. </p>
+		</li>
+		<li>Replace Error Code with Exception 
+			<p><img src="images/repl_code_exception.png"></p>
+		</li>
+		<li>Replace Exception with Test 
+			<p><img src="images/repl_exc_test.png"></p>
+		</li>
+	</ul>
+	<h1> Dealing with Generalization </h1>
+	<ul>
+		<li>Pull Up Field 
+			<p>Two subclasses have the same field. Move the field to the superclass. </p>
+		</li>
+		<li>Pull Up Method </li>
+		<li>Pull Up Constructor Body</li>
+		<li>Push Down Method 
+			<p>Behavior on a superclass is relevant only for some of its subclasses. Move it to those subclasses. </p>
+		</li>
+		<li>Push Down Field </li>
+		<li>Extract Subclass 
+			<p>A class has features that are used only in some instances. Create a subclass for that subset of features. </p>
+		</li>
+		<li>Extract Superclass 
+			<p>You have two classes with similar features. Create a superclass and move the common features to the superclass.</p>
+		</li>
+		<li>Extract Interface 
+			<p>Several clients use the same subset of a class's interface, or two classes have part of their interfaces in common. Extract the subset into an interface. </p>
+		</li>
+		<li>Collapse Hierarchy
+			<p>A superclass and subclass are not very different. Merge them together. </p>
+		</li>
+		<li style='color: red;'>Form Template Method</li>
+		<li>Replace Inheritance with Delegation 
+			<p>A subclass uses only part of a superclasses interface or does not want to inherit data. Create a field for the superclass, adjust methods to delegate to the superclass, and remove the subclassing.  
+ 			</p>
+ 			<p>Delegation:<br>
+ 				<code>class MainClass{<br>
+ 					&emsp;&emsp;DelegateClass delegateClass;<br>
+ 					&emsp;&emsp;...<br>
+ 					&emsp;&emsp;int someMethod(){<br>
+ 					&emsp;&emsp;&emsp;&emsp;return delegateClass.getValue();<br>
+ 					&emsp;&emsp;}<br>
+ 				}
+ 				</code>
+ 			</p>
+		</li>
+		<li>Replace Delegation with Inheritance 
+			<p>
+				You're using delegation and are often writing many simple delegations for the entire interface. Make the delegating class a subclass of the delegate. 				
+			</p>
+		</li> 
 	</ul>
 </body>
 </html>
