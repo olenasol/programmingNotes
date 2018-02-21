@@ -105,8 +105,29 @@
 				</ol>
 			</p>
 		</li>
-		<li style="color: red;"></li>
-
+		<li>Replace Record with Data Class
+			<p>Make a dumb data object for the record.</p>
+		</li>
+		<li>Replace Type Code with Class
+			<p>A class has a numeric type code that does not affect its behavior. Replace the number with a new class.</p>
+			<p><img src="images/repl_type_class.png"></p>
+		</li>
+		<li>Replace Type Code with Subclasses
+			<p>You have an immutable type code that affects the behavior of a class. Replace the type code with subclasses.</p>
+			<p><img src="images/repl_type_subclass.png"></p>
+		</li>
+		<li>Replace Type Code with State/Strategy
+			<p>You have a type code that affects the behavior of a class, but you cannot use subclassing. For example,  the value of the type code changes after the object is created or the class with the type code is already subclassed for another reason.</p>
+			<p><img src="images/repl_type_state.png"></p>
+		</li>
+		<li>Replace Subclass with Fields
+			<p>You have subclasses that vary only in methods that return constant data. Change the methods to superclass fields and eliminate the subclasses.</p>
+			<p><img src="images/repl_subclass_fields.png"></p>
+		</li>
+	</ul>
+	<h1>Simplifying Conditional Expressions</h1>
+	<ul>
+		<li></li>
 	</ul>
 </body>
 </html>
