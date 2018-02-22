@@ -16,6 +16,10 @@ p,ul,ol{
 	font-size:16px;
 	font-family: courier;
 }
+code{
+	font-size:16px;
+	font-family: courier;
+}
 td, th,tr {
     border: 1px solid black;
     text-align: left;
@@ -41,4 +45,7 @@ caption{
 }
 .centr{
 	text-align: center;
+}
+.arr-bottom{
+	padding-left:250px;
 }
