@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kotlin</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Syntax</h1>
+	<ul>
+		<li>Main function:<br>
+			<code>
+				fun main(args:Array&#x276C;String&#x276D;){<br>
+ 				&emsp;   println("Hello world")<br>
+				}
+			</code>
+		</li>
+		<li>
+			Types of variables:<br>
+			<em>val</em> - immutable<br>
+			<em>var</em> - mutable
+		</li>
+		<li><code>var bigInt:Int = Int.MAX_VALUE<br>
+			println("biggest value is Int: ${bigInt is Int}") //string interpolation
+		</code></li>
+		<li><code>
+			if (true is Boolean){<br>
+        &emsp;print("true is boolean\n")<br>
+    		}
+		</code></li>
+		<li><code>3.14.toInt()  //converting</code></li>
+		<li><code>val multStr = """This is multiline<br>
+        string"""</code></li>
+        <li><code>
+        	println("AAA".equals("BBB"))<br>
+    		println("AAA".compareTo("BBB"))
+        </code></li>
+        <li><code>
+        	var str = "A random string"<br>
+    println("2nd index: ${str[2]}")<br>
+    println("Index 2-7: ${str.subSequence(2,8)}")<br>
+    println("Contains random: ${str.contains("random")}")
+        </code></li>
+        <li><code> var myArray = arrayOf(3,6.75,"Olena")<br>
+        		var sqArray = Array(5,{x->x*x})   // 0,1,4,9,16<br>
+    var intArray:Array&#x276C;Int&#x276D; = arrayOf(1,3,5)
+        </code></li>
+        <li>Ranges<br>
+        	<code>
+        		var range = 1..10<br>
+    			var alpha = "A".."Z"<br>
+    			println("R in alpha: ${"R" in alpha} ")<br><br>
+
+    			val tenTo1 = 10.downTo(1)<br>
+    			val twoTo20 = 2.rangeTo(20)<br>
+    			val rng3 = tenTo1.step(3)<br><br>
+
+    			for (x in rng3)<br>
+        		&emsp;	println(x)<br>
+    			for (x in tenTo1.reversed())<br>
+        		&emsp;	println("reversed $x")<br>
+        	</code></li>
+        <li><strong>When</strong>(like switch)<br>
+        	<code>
+        		val age = 8<br>
+    			when(age){<br>
+        		&emsp;	0,1,2,3,4 -> println("Go to Preschool")<br>
+        		&emsp;	5 -> println("Go to Kindergarten")<br>
+        		&emsp;	in 6..17 -> {<br>
+            	&emsp;&emsp;		val grade = age -5<br>
+            	&emsp;&emsp;		println("Go to Grade $grade")<br>
+        		&emsp;	}<br>
+        		&emsp;	else -> println("Go to Collage")<br>
+    			}
+        	</code>
+        </li>	
+        <li>Looping<br>
+        	<code>
+        		import java.util.Random<br><br>
+        		val rand = Random()<br>
+    			val magicNum = rand.nextInt(50)+1<br>
+    			var guess =0<br>
+    			while (magicNum != guess){<br>
+        		&emsp;	guess++<br>
+    			}<br>
+    			println("The magicNum was $guess")
+        	</code><br><br>
+        	<code>
+        		for (i in arr3.indices)<br>
+        		&emsp;	println("element ${arr3[i]}")<br>
+
+    			for ((index,value) in arr3.withIndex()){<br>
+        		&emsp;	println("Index: $index Value: $value")<br>
+    			}
+        	</code>
+        </li>
+        <li><strong>Functions</strong><br>
+        	<code>
+        		fun add(num1: Int, num2: Int):Int = num1 + num2<br>
+        		fun sayHello(name: String):Unit = println("Hello  $name")
+        	</code><br>
+        	<code>
+        		fun nextTwo(num: Int): Pair&#x276C;Int,Int>{<br>
+    			&emsp;	return Pair(num+1,num+2)<br>
+				}<br>
+				val (two,three) = nextTwo(1)<br>
+        	</code>
+        	<code>
+        		fun getSum(vararg nums:Int):Int{<br>
+				&emsp;    var sum = 0<br>
+    			&emsp;	nums.forEach { n->sum += n }<br>
+    			&emsp;	return sum<br>
+				}<br>
+        	</code>
+        	<code>val multiply = {num1:Int,num2:Int -> num1*num2}<br></code><br>
+        	<code>fun factorial(x:Int):Int{<br>
+    &emsp;tailrec fun factTail(y:Int,z:Int):Int{<br>
+    &emsp;&emsp;    if(y==0) return z<br>
+    &emsp;&emsp;    else return factTail(y-1,y*z)<br>
+    &emsp;}<br>
+    &emsp;return factTail(x,1)<br>
+}</code>
+        </li>
+        <li><strong>Higher Order Functions</strong><br>
+        	<code>val evenList = numList.filter { it %2 == 0 }<br></code>
+        	<code>
+        		//generates other functions<br>
+				fun makeMathFunc(num1:Int):(Int) -> Int = {num2 ->num1*num2}<br>
+
+				val mult3 = makeMathFunc(3)<br>
+    			println("5*3 = ${mult3(5)}")<br>
+        	</code>
+        </li>
+        <li><strong>Collection Operators</strong><br>
+        	<code>val numList2 = 1..5<br>
+    			val listSum = numList2.reduce { x, y -> x + y } //15<br>
+    			val foldSum = numList2.fold(5) { x, y -> x + y } //20<br>
+    			numList2.any{it % 2 == 0}} //checks if any element is even<br>
+    			numList2.all{it % 2 == 0}} //checks if all elements are even<br>
+    			val biggerThan3 = numList2.filter { it > 3 }<br>
+    			val times7 = numList2.map { it*7 }<br>
+			</code>
+        </li>
+        <li><strong>Exception Handling</strong><br>
+        	<code>try {<br>
+        &emsp;if (divisor == 0){<br>
+        &emsp;&emsp;    throw IllegalArgumentException("Cant devide by 0")<br>
+        &emsp;} else{<br>
+        &emsp;&emsp;    println("5/$divisor = ${5/divisor}")<br>
+        &emsp;}<br>
+    } catch (e:IllegalArgumentException){<br>
+    &emsp;    println("${e.message}")<br>
+    }<br></code>
+        </li>
+        <li><strong>Lists</strong><br>
+        	<code>
+        	var list1: MutableList&#x276C;Int> = mutableListOf(1,2,3,4,5) //mutable<br>
+    		val list2: List&#x276C;Int> = listOf(1,2,3) //immutable<br>
+    		list1.add(6)<br>
+    		list1.first() //get first element<br>
+    		list1.last() //get last element<br>
+    		var list3 = list1.subList(0,3) <br>
+    		list1.remove(5) //remove element<br>
+    		list1.removeAt(3) // remove element at index<br>
+    		list3.clear()<br>
+    		list1.size // get list size<br>
+    		list1[2] = 10<br>
+    		</code>
+        </li>
+        <li><strong>Maps</strong><br>
+        	<code>
+        	val map = mutableMapOf&#x276C;Int,Any?>()<br>
+    		val map2 = mutableMapOf(1 to "Doug",2 to 25)<br><br>
+
+    		map[1] ="Derek"<br>
+    		map[2] = 42<br><br>
+
+    		println("Map Size : ${map.size}")<br>
+    		map.put(3,"Pittsburg")<br>
+    		map.remove(2)<br><br>
+
+    		for ((x,y) in map){<br>
+    		    println("Key: $x, Value: $y")<br>
+    		}<br>
+			</code>
+        </li>
+        <li><strong>Classes<br></strong>
+        	<code>
+        		open class Animal(val name: String,var height: Double){ //final by default<br>
+				&emsp;    init {<br>
+        		&emsp;&emsp;		require(!name.matches(Regex(".*\\d+.*"))){"Animal name cant contain numbers"}<br>
+        		&emsp;&emsp;		require(height>0){"Height must be greater than 0"}//throws IllegalArgumentException<br>
+    			&emsp;	}<br>
+    			&emsp;	open  fun getInfo():Unit{<br>
+        		&emsp;&emsp;		println("$name is $height tall ")<br>
+    			&emsp;	}<br>
+				}<br><br>
+				val bowser = Animal("Bowser",20.0)<br>
+    			bowser.getInfo()
+        	</code>
+        </li>
+        <li><strong>Inheritance</strong><br>
+        	<code>
+        		class Dog(name: String,
+ 		         height: Double,
+        		  val owner:String):Animal(name,height){<br>
+    		&emsp;override fun getInfo():Unit{<br>
+    		&emsp;&emsp;    println("$name is $height tall,owner $owner")<br>
+    		&emsp;}<br>
+			}
+        	</code>
+        </li>
+        <li><strong>Inheritance</strong><br>
+        	<code>
+        		interface Flyable{<br>
+    			&emsp;&emsp;	var flies:Boolean<br>
+    			&emsp;	fun fly(distMile: Double):Unit<br>
+				}<br>
+				class Bird constructor(val name: String,<br>
+                &emsp;       override var flies:Boolean = true):Flyable{<br>
+    			&emsp;	override fun fly(distMile: Double) {<br>
+        		&emsp;&emsp;		if(flies){<br>
+            	&emsp;&emsp;&emsp;			println("$name files $distMile")<br>
+        		&emsp;&emsp;		}<br>
+    			&emsp;	}<br>
+				}
+        	</code>
+        </li>
+        <li><strong>Null safety</strong><br>
+        	<code>
+        		var nullValue:String? = null //? - allow null to be assigned<br>
+        		fun returnNull():String?{<br>
+        		&emsp;	return null<br>
+    			}<br>
+    			var nullValue2 = returnNull()<br><br>
+
+    			if (nullValue2 != null){ //smart check<br>
+        		&emsp;	println("${nullValue2.length}")<br>
+    			}<br>
+    			var nullValue3 = nullValue2!!.length //force<br>
+    			var nullValue4:String = returnNull()?:"No Name" //Elvis operator
+        	</code>
+        </li>
+	</ul>
+</body>
+</html>
