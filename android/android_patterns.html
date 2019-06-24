@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Patterns in Android</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Patterns in Android</h1>
+	<p><em>“Is there anywhere in this project where I’ll have to change the same thing in multiple places?” – Future You</em></p>
+	<ol>
+		<li>Creational (how you create objects)
+			<p><em>“When I need a particular complex object, how do I get one?” – Future You</em></p>
+			<ul>
+				<li>Builder<br>
+			<code>AlertDialog.Builder(this)<br>
+  .setTitle("Metaphorical Sandwich Dialog")<br>
+  .setMessage("Metaphorical message to please use the spicy mustard.")<br>
+  .setNegativeButton("No thanks", { dialogInterface, i -><br>
+    // "No thanks" button was clicked<br>
+  })<br>
+  .setPositiveButton("OK", { dialogInterface, i -><br>
+    // "OK" button was clicked<br>
+  })<br>
+  .show()<br></code>
+  				</li>
+  				<li>Dependency injection</li>
+  				<p>Dependency injection has you provide any objects required when you instantiate a new object; the new object doesn’t need to construct or customize the objects itself.</p>
+  				<p>Commonly implemented using Dagger 2.</p>
+  				<li>Singleton</li>
+  				<p>The Kotlin <em>object</em> keyword is used to declare a singleton</p>
+  				<code>
+  					object ExampleSingleton {<br>
+  					&emsp; 	fun exampleMethod() {<br>
+    				&emsp; &emsp; 		// ...<br>
+  					&emsp; 	}<br>
+					}
+
+  				</code>
+  			</ul>
+		</li>
+		<li>Structural (how you compose objects)
+			<p><em>“So when I open up this class, how will I remember what’s it’s doing and how it’s put together?” – Future You</em></p>
+			<ul>
+				<li>Adapter
+					<p>In software terms, this pattern lets two incompatible classes work together by converting the interface of a class into another interface the client expects.</p>
+					<p>List of people - RecyclerView doesn’t know what a Person is. Instead, it’s the adapter’s job to handle the data and send the bind command to the correct ViewHolder.</p>
+				</li>
+				<li>Facade
+					<p>The Facade pattern provides a higher-level interface that makes a set of other interfaces easier to use. </p>
+					<img src="images/facade.png" width="250px" height="150px">
+					<p>If your Activity needs a list of books, it should be able to ask a single object for that list without understanding the inner workings of your local storage, cache, and API client</p>
+					<p>Retrofit from Square is an open-source Android library that helps you implement the Facade pattern.</p>
+				</li>
+			</ul>
+		</li>
+		<li>Behavioral (how you coordinate object interactions)
+			<p><em>“So… how do I tell which class is responsible for what?” – Future You</em></p>
+			<ul>
+				<li>Command
+					<p>When you order some excellent Saag Paneer at an Indian restaurant, you don’t necessarily know which cook will prepare your dish; you only give your order to the waiter, who posts the order in the kitchen for the next available cook.</p>
+					<p>Similarly, the Command pattern lets you issue requests without knowing the receiver.</p>
+					<p>EventBus</p>
+					<img src="images/EventBus.png">
+				</li>
+			</ul>
+		</li>
+	</ol>
+</body>
+</html>

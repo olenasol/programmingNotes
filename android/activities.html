@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Activities</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+	<div class="list1">
+			<p>&emsp;&emsp;&emsp;Table of Content</p>
+			<ol>
+				<li><a href="#it1">Intro</a></li>
+				<li><a href="#it2">Launch modes</a></li>
+				<li><a href="#it3">Activity lifecycle</a>
+					<ol>
+						<li><a href="#jit1">Single Activity — Scenario 1: App is finished and restarted
+</a></li>
+						<li><a href="#jit2">Single Activity — Scenario 2: User navigates away</a></li>
+						<li><a href="#jit3">Single Activity — Scenario 3: Configuration changes</a></li>
+						<li><a href="#jit4">Single Activity — Scenario 4: App is paused by the system</a></li>
+						<li><a href="#jit5">Back Stack — Scenario 1: Navigating between activities</a></li>
+						<li><a href="#jit6">Back Stack — Scenario 2: Activities in the back stack with configuration changes</a></li>
+						<li><a href="#jit7">Back Stack — Scenario 3: App’s process is killed</a></li>
+						<li><a href="#jit8">Fragments - Scenario 1: Activity with Fragment starts and finishes</a></li>
+						<li><a href="#jit9">Scenario 2: Activity with Fragment is rotated</a></li>
+						<li><a href="#jit10">Scenario 3: Activity with retained Fragment is rotated</a></li>
+					</ol>
+				</li>
+				<li><a href="#it4">Generics</a></li>
+				<li><a href="#it5">Вийнятки</a></li>
+				<li><a href="#it6">Файли</a></li>
+			</ol>
+		</div>
+	<h1 id="it1">Intro</h1>
+	<p>When one app invokes another, the calling app invokes an activity in the other app, rather than the app as an atomic whole. In this way, the activity serves as the entry point for an app's interaction with the user. </p>
+	<p>An activity provides the window in which the app draws its UI.</p>
+	<p>Intent filters are a very powerful feature of the Android platform. They provide the ability to launch an activity based not only on an explicit request, but also an <b>implicit</b> one. </p>
+	<img src="images/intents.png">
+	<p>Declaring the &#60;category&#62; element as DEFAULT enables the activity to receive launch requests. </p>
+</body>
+</html>
