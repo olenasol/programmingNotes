@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Apk,aar</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>APK</h1>
+	<p><strong>APK</strong> - <em>Android Application Package or Android Package Kit</em> -  the package file format used by the Android operating system for distribution and installation of mobile apps.</p>
+	<ul>
+		<li> The <em>META-INF</em> contains what is known as the manifest file. Think of this as the main file, which contains the file’s signature and the resources within the APK file.  </li>
+		<li>The <em>Lib/</em> and <em>Res/</em> files, which contain the native library and further resources, such as images, within the APK file.</li>
+		<li> An <em>AndroidManifest.xml</em> file describes the name, version, and contents of an APK file.</li>
+		<li>The <em>classes.dex</em> and <em>resources.arsc</em> files contain compiled Java classes and resources, like strings, to be run on your Android device.</li>
+	</ul>
+	<p>APK files have their own folder. Simply locate the APK file you want to see and click it. APK files are stored in a .ZIP file, which compresses all the information within the APK file into a single file. This is used to save storage on your device. By clicking, or unzipping, the file, you’ll be able to view the contents within the file. </p>
+	<p>Dalvik is a discontinued process virtual machine in Google's Android operating system that executes applications written for Android.</p>
+	<p>Runtime -  a system used by operating system which takes care of converting the code that you write in a high level language like Java to machine code and understand by CPU/Processor.</p>
+	<p>In Android Java classes converted into DEX bytecode. The DEX bytecode format is translated to native machine code via either ART or the Dalvik runtimes. Here DEX bytecode is independent of device architecture.</p>
+	<p> Difference between Dalvik and ART:</p>
+	<ol>
+		<li>ATR introduced in Android 4.4 and completely replaced Dalvik in Android 5.</li>
+		<li> Android 7.0 adds a just-in-time (JIT) compiler with code profiling to Android runtime (ART) that constantly improves the performance of Android apps as they run.</li>
+		<li>Dalvik used JIT (Just in time) compilation whereas ART uses AOT (Ahead of time) compilation.</li>
+		<li>With the Dalvik JIT compiler, each time when the app is run, it dynamically translates a part of the Dalvik bytecode into machine code.Since JIT compiles only a part of the code, it has a smaller memory footprint and uses less physical space on the device.</li>
+		<li>AOT - During the app’s installation phase, it statically translates the DEX bytecode into machine code and stores in the device’s storage. This is a one-time event which happens when the app is installed on the device. With no need for JIT compilation, the code executes much faster.
+As ART runs app machine code directly (native execution), it doesn’t hit the CPU as hard as just-in-time code compiling on Dalvik. Because of less CPU usage results in less battery drain.
+</li>
+	</ol>
+	<p>Why Android use Virtual Machine</p>
+	<ul>
+		<li>The application code is isolated from the core OS. So even if any code contains some malicious code won’t directly affect the system files.</li>
+		<li> It provides cross compatibility or platform independency. It meaning even if an app is compiled on platform such as a PC, it can still be executed on the mobile platform using the virtual machine.</li>
+	</ul>
+	<h1>Android App Bundle</h1>
+	<p> It is a new upload format that includes all your app’s compiled code and resources, but defers APK generation and signing to Google Play.</p>
+	<p>Advantages:</p>
+	<ul>
+		<li><strong>Dynamic Delivery</strong> -  generate and serve optimized APKs for each user’s device configuration, so they download only the code and resources they need to run your app.</li>
+		<li><strong>No need to manually manage multiple APKs</strong> - For example, now you don’t have to create multiple APKs for devices with different screen resolutions.</li>
+		<li><strong>Dynamic Feature Module</strong> - These modules contain features and assets that you can decide not to include when users first download and install your app. Using the Play Core Library, your app can later request to download those modules as dynamic feature APKs. </li>
+		<li><strong>Reduced APK size</strong> - On average, apps published with app bundles are 20% smaller in size.</li>
+	</ul>
+	<p>Split APKs are very similar to regular APKs — they include compiled DEX bytecode, resources, and an Android manifest. However, the Android platform is able to treat multiple installed split APKs as a single app.Types:</p>
+	<ul>
+		<li><em>Base APK</em> : This APK contains code and resources that all other split APKs can access and provides the basic functionality for your app. When the user downloads the app, they always get this APK.</li>
+		<li><em>Configuration APKs</em> : Each of these APKs includes only native libraries and resources for a given device configuration — screen density, language or CPU architecture.</li>
+		<li><em>Dynamic Feature APKs</em> : Each of these APKs contain code and resources that are not required when your app is first installed, but may be downloaded and installed later.</li>
+	</ul>
+	<img src="images/split_apk.png">
+	<h1>AAR</h1>
+	<p>In addition to JAR files, the Android also makes use of a binary distribution format called Android ARchive (AAR).</p>
+	<p>An AAR is similar to a JAR file, but it can contain both resources and compiled byte-code. </p>
+	<code>
+		dependencies {<br>
+		&emsp;&emsp;	implementation 'GROUP_ID:ARTIFACT_ID:VERSION'<br>
+		}<br>
+	</code>
+	 <p>The structure of the AAR file is as follows-</p>
+	 <code>- /AndroidManifest.xml (mandatory)<br>
+- /classes.jar (mandatory)<br>
+- /res/ (mandatory)<br>
+- /R.txt (mandatory)<br>
+- /assets/ (optional)<br>
+- /libs/*.jar (optional)<br>
+- /jni/&lt;abi&gt;/*.so (optional)<br>
+- /proguard.txt (optional)<br>
+- /lint.jar (optional)<br>
+</code>
+
+</body>
+</html>

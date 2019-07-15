@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Content provider</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Content provider</h1>
+	<p>Content provider is a way to share data from your application for general use. Most of the time it is related to databases. Creation of content provider resembles creation of database helper class. We use <code>SQLiteOpenHelper</code> to deal with database and implement methods <strong>query, insert, update, delete</strong> from ContentProvider class.</p>
+	<p>ContentProvider uses Uri: <code>content://&lt;authority&gt;/&lt;path&gt;/&lt;id&gt;</code></p>
+	<h1>WorkManager</h1>
+	<p>The WorkManager API makes it easy to schedule deferrable, asynchronous tasks that are expected to run even if the app exits or device restarts.</p>
+	<p>WorkManager is an Android library that runs deferrable background work when the work’s constraints are satisfied.</p>
+	<p>WorkManager is intended for tasks that require a guarantee that the system will run them even if the app exits.</p>
+	<img src="images/taskmanadger.png">
+	<p>In the case of WorkManager, it’s best for background work that has to <strong>finish</strong> and is <strong>deferrable</strong>.</p>
+	<p> WorkManager offers the following benefits:</p>
+		<ul>
+			<li>Handles compatibility with different OS versions</li>
+			<li>Follows system health best practices</li>
+			<li>Supports asynchronous one-off and periodic tasks</li>
+			<li>Supports chained tasks with input/output</li>
+			<li>Lets you set constraints on when the task runs</li>
+			<li>Guarantees task execution, even if the app or device restarts</li>
+		</ul>
+		<img src="images/wm_constraints.png">
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Activities</title>
+		<title>Activities and Fragments</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body>
@@ -10,7 +10,14 @@
 			<p>&emsp;&emsp;&emsp;Table of Content</p>
 			<ol>
 				<li><a href="#it1">Intro</a></li>
-				<li><a href="#it2">Launch modes</a></li>
+				<li><a href="#it2">Launch modes</a>
+					<ol>
+						<li><a href="#lm1">SingleTop</a></li>
+						<li><a href="#lm2">SingleTask</a></li>
+						<li><a href="#lm3">SingleInstance</a></li>
+						<li><a href="#lm4">Stadard</a></li>
+					</ol>
+				</li>
 				<li><a href="#it3">Activity lifecycle</a>
 					<ol>
 						<li><a href="#jit1">Single Activity — Scenario 1: App is finished and restarted
@@ -22,13 +29,12 @@
 						<li><a href="#jit6">Back Stack — Scenario 2: Activities in the back stack with configuration changes</a></li>
 						<li><a href="#jit7">Back Stack — Scenario 3: App’s process is killed</a></li>
 						<li><a href="#jit8">Fragments - Scenario 1: Activity with Fragment starts and finishes</a></li>
-						<li><a href="#jit9">Scenario 2: Activity with Fragment is rotated</a></li>
-						<li><a href="#jit10">Scenario 3: Activity with retained Fragment is rotated</a></li>
+						<li><a href="#jit9">Fragments - Scenario 2: Activity with Fragment is rotated</a></li>
+						<li><a href="#jit10">Fragments - Scenario 3: Activity with retained Fragment is rotated</a></li>
 					</ol>
 				</li>
-				<li><a href="#it4">Generics</a></li>
-				<li><a href="#it5">Вийнятки</a></li>
-				<li><a href="#it6">Файли</a></li>
+				<li><a href="#it4">Why use fragments?</a></li>
+				<li><a href="#it5">Process Death</a></li>
 			</ol>
 		</div>
 	<h1 id="it1">Intro</h1>
@@ -37,5 +43,123 @@
 	<p>Intent filters are a very powerful feature of the Android platform. They provide the ability to launch an activity based not only on an explicit request, but also an <b>implicit</b> one. </p>
 	<img src="images/intents.png">
 	<p>Declaring the &#60;category&#62; element as DEFAULT enables the activity to receive launch requests. </p>
+	<h1 id="it2">Launch modes</h1>
+	<ul>
+		<li id="lm1">singleTop<br>
+			<figure>
+  				<img src="images/singleTop1.png" width="30%" >
+  				<figcaption> If you define Activity D as singleTop in AndroidManifest.xml. D uses same instance and onNewIntent() method is called in Activity D.</figcaption>
+			</figure>
+			<br>
+			<figure>
+  				<img src="images/singleTop2.png" width="30%">
+  				<figcaption>If you define Activity D as singleTop in AndroidManifest.xml. Fresh new activity is created.D.</figcaption>
+			</figure>
+			<br>
+			<figure>
+  				<img src="images/singleTop3.png" width="30%">
+  				<figcaption> If you define Activity D as singleTop in AndroidManifest.xml. D uses same instance and onNewIntent() method if and only if it is already on top of task. If it is not on top of task, then new Activity D instance will be created.</figcaption>
+			</figure>
+		</li>
+		<li id="lm2">singleTask<br>
+			<figure>
+  				<img src="images/singleTask1.png" width="30%">
+  				<figcaption> Activity C declared as singleTask. You see that Activity D is destroyed? and onNewIntent() method is used in Activity C.</figcaption>
+			</figure>
+			<br>
+			<figure>
+  				<img src="images/singleTask2.png" width="30%">
+  				<figcaption> Fresh new Activity C is launched.</figcaption>
+			</figure>
+		</li>
+		<li id="lm3">singleInstance<br>
+			<figure>
+  				<img src="images/singleInstance1.png" width="30%">
+  				<figcaption> launchMode = “singleInstance” in Activity E. Woaw!? yes. A,B,C,D is in one task. E will be created in another task.</figcaption>
+			</figure>
+			<br>
+			<figure>
+  				<img src="images/singleInstance2.png" width="30%">
+  				<figcaption> What if we want to launch Activity F from Activity D? E is still in another task. a,b,c,d and f are in another task.</figcaption>
+			</figure>
+			<br>
+			<figure>
+  				<img src="images/singleInstance3.png" width="30%">
+  				<figcaption>Activity E is still in another task. And If we start it again, onNewIntent() method is called instead of creating new fresh activity.</figcaption>
+			</figure>
+		</li>
+		<li id="lm4">standard<br>
+			<figure>
+  				<img src="images/standard.png" width="30%">
+  				<figcaption> Creates fresh new activity B. And yes I know we already have one B in stack. But It does not use that one.</figcaption>
+			</figure>
+		</li>
+	</ul>
+	<h1 id="it3">Activity Lifecycle</h1>
+		<ul>
+			<li>Single Activity — Scenario 1: App is finished and restarted<br>
+				<img src="images/scenario1.png" width="30%">
+			</li>
+			<li>Single Activity — Scenario 2: User navigates away<br>
+				-The user presses the Home button<br>
+				-The user switches to another app <br>
+				<img src="images/scenario2.png">
+				<p> the system uses onSaveInstanceState to save the app state in case the system kills the app’s process later on </p>
+			</li>
+			<li>Single Activity — Scenario 3: Configuration changes<br>
+				-Configuration changes, like a rotation<br>
+				-User resizes the window in multi-window mode<br>
+				<img src="images/scenario3.png">
+				<p>The activity is completely destroyed, but the state is saved and restored for the new instance.</p>
+			</li>
+			<li>Single Activity — Scenario 4: App is paused by the system<br>
+				-Enabling Multi-window mode (API 24+) and losing the focus<br>
+				-Another app partially covers the running app (a purchase dialog, a runtime permission dialog, a third-party login dialog…)<br>
+				-An intent chooser appears, such as a share dialog<br>
+				<img src="images/scenario4.png">
+			</li>
+			<li>Back Stack — Scenario 1: Navigating between activities<br>
+				<img src="images/scenario5.png">
+				<p>Note that onSaveInstanceState is called, but onRestoreInstanceState is not. If there is a configuration change when the second activity is active, the first activity will be destroyed and recreated only when it’s back in focus. That’s why saving an instance of the state is important.</p>
+			</li>
+			<li>Back Stack — Scenario 2: Activities in the back stack with configuration changes<br>
+				<img src="images/scenario6.png">
+			</li>
+			<li>Back Stack — Scenario 3: App’s process is killed<br>
+				<img src="images/scenario7.png">
+			</li>
+			<li>Scenario 1: Activity with Fragment starts and finishes<br>
+				<img src="images/scenario8.png">
+				<p>It’s guaranteed that the Activity’s onCreate is executed before the Fragment’s. However, callbacks shown side by side — such as onStart and onResume — are executed in parallel and can therefore be called in either order. </p>
+			</li>
+			<li>Scenario 2: Activity with Fragment is rotated<br>
+				<img src="images/scenario9.png">
+				<p>There’s no onRestoreInstanceState in fragments, but the Bundle is available in the fragment’s onCreate, onCreateView and onActivityCreated.</p>
+			</li>
+			<li>Fragments — Scenario 3: Activity with retained Fragment is rotated<br>
+				<img src="images/scenario10.png">
+			</li>
+		</ul>
+		<p>Translucent activities have translucent (usually transparent) backgrounds so the user can still see what’s underneath.
+When the property <code>android:windowIsTranslucent</code> is applied to an activity’s theme, the diagram changes slightly: the background activity is never stopped, only paused, so it can continue receiving UI updates</p>
+		<h1 id="it4">Why use fragments?</h1>
+		<ul>
+			<li>Fragments group user interface components and their associated logic.</li>
+			<li><b>Fragments provide glue and coordination of components, driven by knowledge of external lifecycle.</b> Fragments can depend on Views. But Views have no knowledge of Fragments.</li>
+			<li><b>Don’t use a Fragment if a Composite View does the same job, especially if you don’t need any lifecycle callbacks (e.g. that UI doesn’t need to know when the app is paused).</b> On the other hand don’t do stuff like binding to a service inside composite views (ViewGroups), listening to broadcasts, and other things where you are bringing external dependencies into your custom view. This is again better suited for Fragments.</li>
+			<li>Fragments provide you with a backstack, state restoration (remember that dreaded process death?), transitions, animations, options to detach/re-attach views, the whole lifecycle awareness and much more.</li>
+			<li>Retained fragments?  Have you ever wondered what mechanism ViewModel uses to survive orientation change? They’re kept inside headless retained Fragments during the orientation change. Pretty neat. But for the love of God, don’t use Retained Fragments in regular screens. They’re not really meant to be used with an actual UI.</li>
+		</ul>
+		<h1 id="it5">Process death</h1>
+		<p>Your Android application (process) can be killed at any time if it’s in paused or stopped state. The state of your Activities, Fragments and Views will be saved. When your return back to the application — the system will start the process again, recreate the top activity (the Activities in the back-stack will be recreated on demand when you go back) and you will get a Bundle with the stored state.</p>
+		<p>Troublemakers in your app:</p>
+		<ul>
+			<li>Singletons</li>
+			<li>Any other shared instances that keep mutable data (such as injected dependencies where you keep some state)</li>
+			<li>Data and State stored in your Application class</li>
+			<li>Mutable static fields</li>
+			<li>Retained fragments (state is restored, data is lost)</li>
+			<li>Basically anything which is not stored in onSaveInstanceState and you depend on it</li>
+		</ul>
 </body>
 </html>

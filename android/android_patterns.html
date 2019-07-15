@@ -62,6 +62,53 @@
 					<p>EventBus</p>
 					<img src="images/EventBus.png">
 				</li>
+				<li>Observer
+					<p>The Observer pattern defines a one-to-many dependency between objects. When one object changes state, all of its dependents are notified and updated automatically.</p>
+					<p>In short, you define Observable objects that will emit values. These values can emit all at once, as a continuous stream, or at any rate and duration.</p>
+
+					<p>Subscriber objects will listen for these values and react to them as they arrive. For example, you can open a subscription when you make an API call, listen for the response from the server, and react accordingly.</p>
+					<p>The RxAndroid framework (aka Reactive Android) </p>
+					<code>
+						apiService.getData(someData)<br>
+  						&emsp;	.subscribeOn(Schedulers.io())<br>
+  						&emsp;	.observeOn(AndroidSchedulers.mainThread())<br>
+  						&emsp;	.subscribe (/* an Observer */)<br>
+					</code>
+				</li>
+				<li>MVC
+					<br>
+					<img src="images/mvc.png" height="250px" width="375px">
+					<ul>
+						<li>Model — the data layer, responsible for managing the business logic and handling network or database API.</li>
+						<li>View — the UI layer — a visualisation of the data from the Model.</li>
+						<li>Controller — the logic layer, gets notified of the user’s behavior and updates the Model as needed.</li>
+					</ul>
+				</li>
+				<li>MVP
+					<br>
+					<img src="images/mvp.png">
+					<ul>
+						<li>
+						<strong>View</strong> = a passive interface that displays data and routes user actions to the Presenter. In Android, it is represented by Activity, Fragment, or View.
+						</li>
+						<li><strong>Model</strong> = a layer that holds business logic, controls how data is created, stored, and modified. In Android, it is a data access layer such as database API or remote server API.</li>
+						<li><strong>Presenter</strong> = A middle man which retrieves data from Model and show it in the View. It also process user action forwarded to it by the View.</li>
+						<li>View can not access Model</li>
+						<li>Presenter is tied to a single View. (One-to-One relationship)</li>
+						<li>View is completely dumb and passive (only retrieve user action and leave all other things for Presenter to handle).</li>
+					</ul>
+				</li>
+				<li>MVVM
+					<br>
+					<img src="images/mvvm.png">
+					<ul>
+						<li>The <strong>View</strong> — that informs the ViewModel about the user’s actions</li>
+						<li>The <strong>ViewModel</strong> — exposes streams of data relevant to the View</li>
+						<li>The <strong>DataModel</strong> — abstracts the data source. The ViewModel works with the DataModel to get and save the data.</li>
+						<li> the MVVM pattern was created to simplify the event driven programming of user interfaces.</li>
+						<li>ViewModel has no information about the View</li>
+					</ul>
+				</li>
 			</ul>
 		</li>
 	</ol>

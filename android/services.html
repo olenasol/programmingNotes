@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Services</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Services</h1>
+	<p>A Service is an Android application component without a UI that runs on the main thread (of the hosting process).  If you want the service code to run in a Background Thread, then you must manage that yourself. </p>
+	<p>There is a subclass of Service that handles it’s own Background Thread called IntentService.</p>
+	<img src="images/services1.png">
+	<p>The Service’s <code>onCreate()</code> method is called when it is created (by starting it or binding to it).</p>
+		<ul>
+			<li>It then spawns a Thread or an Executor some time after it has been created.</li>
+			<li>When this Thread finishes, it lets the Service know that by calling <code>stopSelf()</code>. This is a very common pattern in Service implementations.</li>
+		</ul>
+	<p>The Service doesn’t know what is going on in the code running in your Thread or Executor task – it is your responsibility to let it know when you’ve started, and when you’ve finished.</p>	
+	<p>Types of services</p>
+	<ol>
+		<li>Started Services</li>
+		<li>Bound Services</li>
+		<li>Bound and Started Services</li>
+	</ol>
+	<h2>Started services</h2>
+	<p>A Started Service can be started by calling the <code>startService(Intent)</code> method in your Activity or Service. This Intent has to be an explicit Intent.</p>
+	<p>A Service can be started multiple times. Each time it is started, then <code>onStartCommand()</code> is called. A few parameters are passed to this command, along with any extras that are passed from your explicit Intent.</p>
+	<p> In order to kill this Service, you have to ask it to stop by calling <code>stopSelf()</code>. When the Service does stop (after you’ve asked it) and there’s nothing else bound to it, then it will call <code>onDestroy()</code>.</p>
+	<p> The component that launches the Service doesn’t really keep a connection to it, and if it needs to communicate something to the Started Service then it can start it again and pass it a different Intent. </p>
+	<code>@TargetApi(Build.VERSION_CODES.O)<br>
+    private void moveToStartedState() {<br>
+    &emsp;    Intent intent = new MyIntentBuilder(this)<br>
+    &emsp;&emsp;        .setCommand(Command.START).build();<br>
+    &emsp;    if (isPreAndroidO()) {<br>
+    &emsp;&emsp;        Log.d(TAG, "Running on Android N or lower");<br>
+    &emsp;&emsp;        startService(intent);<br>
+    &emsp;    } else {<br>
+    &emsp;&emsp;        Log.d(TAG, "Running on Android O");<br>
+    &emsp;&emsp;        startForegroundService(intent);<br>
+    &emsp;    }<br>
+    }<br>
+	</code>
+	<p>When you want to take your Started Service out of foreground execution, you can call <code>stopForeground(true)</code>. This will also take away the persistent notification. However, this will not stop the service. In order to do that you still have to call <code>stopSelf()</code>.</p>
+	<h2>Bound services</h2>
+	<p>Bound Services allow a connection to be established between the Android component binding to the Service, and the Service. This connection is an IBinder which allows methods to be called on the Service.</p>
+	<p>if the Service (Bound or Started) needs to send messages to the bound client or whatever component started a Service, it has to use something like LocalBroadcastManager when the the client and Service are local to one process. </p>
+	<code>
+		private val mServiceConnection = object : ServiceConnection {<br>
+		<br>
+        override fun onServiceConnected(name: ComponentName, service: IBinder) {<br>
+        &emsp;     val binder = service as PlayerForegroundService.LocalBinder<br>
+        &emsp;     mService = binder.getService()<br>
+        &emsp;     mBound = true<br>
+        }<br>
+        <br>
+        override fun onServiceDisconnected(name: ComponentName) {<br>
+        &emsp;     mService = null<br>
+        &emsp;     mBound = false<br>
+        }<br>
+    }<br>
+	</code>
+	<code> context?.bindService(Intent(context, PlayerForegroundService::class.java), mServiceConnection,
+            Context.BIND_AUTO_CREATE)</code>
+    <br>
+    <code>
+    	public class MyService extends Service{
+    	&emsp;	public boolean onUnbind(Intent i){
+        &emsp;&emsp;		return false;
+    	&emsp;	}
+		}
+    </code>
+    <p>Typically, you will return false. If you don’t, then when the next client binds to the Bound Service, then <code>onRebind()</code> will be called, instead of <code>onBind()</code>.</p>
+    <p>A client binding to a Service will call <code>onCreate()</code>. If you don’t move your Service to a Started State, then when the client unbinds from the Service, it will be killed and it’s <code>onDestroy()</code> method will be called.</p>
+    <img src="images/bound_services.png" width="75%">
+    <p><code>onStartCommand</code> returns one of the following constants:</p>
+    <ul>
+    	<li>START_NOT_STICKY - service will not restart after it was killed by the system</li>
+    	<li>START_STICKY - service will restart after it was killed by the system</li>
+    	<li>START_REDELIVER_INTENT - service will restart after it was killed by the system. Apart from that, service will receive all calls to <code>startService</code> that were not finished by method <code>stopSelf(startId)</code>.</li>
+    </ul>
+</body>
+</html>

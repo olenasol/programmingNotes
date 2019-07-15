@@ -159,6 +159,21 @@
 	</table>
 	<p>HTTP-cookie -  у комп'ютерній термінології поняття, яке використовується для опису інформації у вигляді текстових або бінарних даних, отриманих від веб-сайту на веб-сервері, яка зберігається у клієнта, тобто браузера, а потім відправлена на той самий сайт, якщо його буде повторно відвідано.</p>
 	<p>Cookies are text files stored on the client computer and they are kept for various information tracking purpose.</p>
+	<h1>Http vs Https</h1>
+	<ul>
+		<li>HTTP stands for Hypertext Transfer Protocol. At it’s most basic, it allows for the communication between different systems. It’s most commonly used to transfer data from a web server to a browser in order to allow users to view web pages. It’s the protocol that was used for basically all early websites.</li>
+		<li>HTTPS stands for Hypertext Transfer Protocol Secure. The problem with the regular HTTP protocol is that the information that flows from server to browser is not encrypted, which means it can be easily stolen. HTTPS protocols remedy this by using an SSL (secure sockets layer) certificate, which helps create a secure encrypted connection between the server and the browser, thereby protecting potentially sensitive information from being stolen as its transferred between the server and the browser.</li>
+		<li> in addition to adding that extra layer of security, HTTPS is also secured via TLS (Transport Layer Security) protocol. TLS helps provide data integrity, which helps prevent the transfer of data from being modified or corrupted, and authentication, which proves to your users that they are communicating with the intended website.</li>
+		<img src="images/Difference-Between-HTTP-and-HTTPS.png">
+	</ul>
 	<a href="servlets.html"><img src="images/next.png" width="200px" height="150px"></a>
+	<h1>Other</h1>
+	<p>A network socket is an internal endpoint for sending or receiving data within a node on a computer network. </p>
+	<p>WebSockets represent a long awaited evolution in client/server web technology. They allow a long-held single TCP socket connection to be established between the client and server which allows for bi-directional, full duplex, messages to be instantly distributed with little overhead resulting in a very low latency connection.</p>
+	<p>In practice, socket usually refers to a socket in an Internet Protocol (IP) network (where a socket may be called an Internet socket), in particular for the Transmission Control Protocol (TCP), which is a protocol for one-to-one connections.</p>
+	<p>JWT(Json Web Token) - It is important to understand that the purpose of using JWT is NOT to hide or obscure data in any way. The reason why JWT are used is to prove that the sent data was actually created by an authentic source.</p>
+	<code>header.payload.signature</code>
+	<img src="images/jwt.png">
+	<p>Tokens play an important part in OAuth 2.0. There are two types of tokens: access tokens and refresh tokens. Anyone with a valid access token can access protected resources; usually it is short-lived so that even if there is a security breach and the access token is leaked, the damage can be quickly controlled. When an access token expires, developers can use an optional refresh token to request a new access token without having to ask the user to enter their credentials again.</p>
 	</body>
 </html>
