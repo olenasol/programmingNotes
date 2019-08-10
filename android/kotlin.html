@@ -5,6 +5,14 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+    <h1>Advantages</h1>
+    <ul>
+        <li><strong>More expressive:</strong> you can write more with much less code</li>
+        <li><strong>Safer:</strong> is null safe</li>
+        <li><strong>Functional:</strong> uses many concepts from functional programming, such as lambda expressions</li>
+        <li><strong>Has extension functions</strong></li>
+        <li><strong>Highly interoperable</strong></li>
+    </ul>
 	<h1>Syntax</h1>
 	<ul>
 		<li>Main function:<br>
@@ -241,5 +249,341 @@
         	</code>
         </li>
 	</ul>
+    <h1>Other features</h1>
+    <ul>
+    <li>By default, a class always extends from <em>Any</em> (similar to Java <em>Object</em>), but we can extend any other classes. Classes are closed by default (final), so we can only extend a class if it’s explicitly declared as <code>open</code> or <code>abstract</code>.</li>
+    <li>Functions in Kotlin always return a value. So if you don’t specify a return value, it will return <code>Unit</code>.</li>
+    <li>Default visibility is <code>public</code>.</li>
+    <li>In Kotlin, everything is an object.</li>
+    <li>There are no automatic conversions among numeric types. For instance, you cannot assign an Int to a Double variable. An explicit conversion must be done.</li>
+    <li>Characters (Char) cannot directly be used as numbers.</li>
+    <li>Bitwise arithmetical operations are a bit different. In Android, we use bitwise or quite often for flags, so I’ll stick to “and” and “or“.</li>
+    <li>The key concept: just use <code>val</code> as much as possible</li>
+    <li><code>
+        var name: String = ""<br>
+ &emsp;&emsp;get() = field.toUpperCase()<br>
+ &emsp;&emsp;set(value) {<br>
+ &emsp;&emsp;&emsp;field = "Name: $value"<br>
+ &emsp;&emsp;}<br>
+
+    </code></li>
+    <li>Extensions can also be properties. So you can create extension properties in a very
+similar way. Thanks to this code below, you could add an extra property to ViewGroup
+to get a list of its child views:<br>
+    <code>
+    &emsp;val ViewGroup.childViews: List&#x276C;View&#x276D;<br>
+    &emsp;&emsp;    get() = (0 until childCount).map { getChildAt(it) }</code>
+    <p>Extension functions don’t really modify the original class, but the function is added as a static import where it is used.</p>
+    </li>
+    <li>
+        <code>
+            val f1 = Forecast(Date(), 27.5f, "Shiny day")<br>
+            val f2 = f1.copy(temperature = 30f)
+        </code>
+    </li>
+    <li> Mapping an object into variables<br>
+        <code>
+            val f1 = Forecast(Date(), 27.5f, "Shiny day")<br>
+            val (date, temperature, details) = f1
+        </code>
+    </li>
+    <li>If we need some static properties, constants or functions in a class, we can use a <strong>companion object</strong>. This object will be shared among all instances of the class, the same as a static field or method would do in Java.
+    </li>
+    <li><code>with</code> is a useful function included in the standard Kotlin library. It basically receives an object and an extension function as parameters, and makes the object execute the function. This means that all the code we define inside the brackets acts as an extension function for the object provided in the first parameter, and we can use all its public functions and properties, as well as <code>this</code>. Really helpful to simplify code when we do several operations over the same object.
+    </li>
+    <li>An inline function will be substituted by its code during compilation, instead of doing the real call to a function. It will reduce memory allocations and runtime overhead in some situations. For instance, if we have a function as an argument, a regular function will internally create an object that contains that function. On the other hand, inline functions will substitute the code of the function in the place where it is called, so it won’t require an internal object for that.<br>
+        <code>
+            inline fun supportsLollipop(code: () -> Unit) {<br>
+            &emsp;if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {<br>
+            &emsp;&emsp;code()<br>
+            &emsp;}<br>
+            }<br><br>
+            supportsLollipop {
+             &emsp;window.setStatusBarColor(Color.BLACK)
+            }
+        </code>
+    </li>
+    <li>An <strong>internal</strong> member is visible inside the whole module if it’s a package member.</li>
+    <li>Kotlin provides a way to delegate the code a property needs to another class. This is know as a <strong>delegated property</strong>.<br>
+    <code>
+        class Delegate&#x276C;T&#x276D; {<br>
+ &emsp;operator fun getValue(thisRef: Any?, property: KProperty<*>): T {<br>
+&emsp;&emsp; return ...<br>
+&emsp; }<br>
+<br>
+ &emsp;operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {<br>
+ &emsp;&emsp;...<br>
+ &emsp;}<br>
+ }
+
+    </code>
+    <p>Assigning delegated property<br>
+        <code>var p: String <strong>by</strong> Delegate()</code>
+    </p>
+    <p>Different delegates:</p>
+    <ul>
+        <li><em>Lazy</em> - it takes a lambda that is executed the first time getValue is called, so the initialisation
+of the property is delayed up to that moment.<br>
+        <code>
+        val database: SQLiteOpenHelper by lazy {<br>
+        &emps;     MyDatabaseHelper(applicationContext)<br>
+        }
+        </code>
+        </li>
+        <li><em>Observable</em> - this delegate will help us detect changes on any property we need to observe. It will
+execute the declared lambda expression every time the <code>set</code> function is called.<br>
+        <code>
+             var myProperty by Delegates.observable(initialValue = 0) {<br>
+             &emsp;   _, _, new -><br>
+             &emsp;&emsp;       toast(new.toString())<br>
+             }
+
+        </code>
+    </li>
+    <li><em>Vetoable</em> - this is a special kind of observable that lets you decide whether the value must be
+saved or not. It can be used to check some conditions before saving a value.<br>
+    <code>
+        var myProperty:Int by Delegates.vetoable(0) {<br>
+         &emsp;_, _, new -><br>
+         &emsp;&emsp;new >= 5<br>
+         }<br>
+    </code>
+    </li>
+    <li><em>Values from a map</em><br>
+        <code>
+            class Configuration(map: Map&#x276C;String, Any?&#x276D;) {<br>
+            &emsp;    val width: Int by map<br>
+            &emsp;    val height: Int by map<br>
+            &emsp;    val dp: Int by map<br>
+            &emsp;    val deviceName: String by map<br>
+             }<br><br>
+             val conf = Configuration(mapOf(<br>
+             &emsp;    "width" to 1080,<br>
+             &emsp;    "height" to 720,<br>
+             &emsp;    "dp" to 240,<br>
+             &emps;    "deviceName" to "mydevice"<br>
+            ))
+
+        </code>
+    </li>
+    </ul>
+    </li>
+    <li><code>
+        infix fun &#x276C;A, B&#x276D; A.to(that: B): Pair&#x276C;A, B&#x276D; = Pair(this, that)<br>
+        val pair = object1 to object2
+    </code></li>
+    <li>
+        <p>Collections in Kotlin</p>
+        <ul>
+            <li>Iterable / MutableIterable</li>
+            <li>Collection / MutableCollection</li>
+            <li>List / MutableList</li>
+            <li>Set / MutableSet</li>
+            <li>Map / MutableMap</li>
+        </ul>
+        <p> Aggregate operations:</p>
+        <code>val list = listOf(1, 2, 3, 4, 5, 6)</code>
+        <ul>
+            <li><code>any</code> - Returns true if at least one element matches the given predicate<br>
+                <code>assertTrue(list.any { it % 2 == 0 })</code>
+            </li>
+            <li><code>all</code> - Returns true if all the elements match the given predicate<br>
+                <code>assertTrue(list.all { it < 10 })</code>
+            </li>
+            <li><code>count</code> - Returns the number of elements matching the given predicate<br>
+                <code>assertEquals(3, list.count { it % 2 == 0 })</code>
+            </li>
+            <li><code>fold</code> - Accumulates the value starting with an initial value and applying an operation from
+the first to the last element in a collection.<br>
+                <code>assertEquals(25, list.fold(4) { total, next -> total + next })</code>
+            </li>
+            <li><code>foldRight</code> - Same as fold, but it goes from the last element to first</li>
+            <li><code>forEach</code><br>
+                <code> list.forEach { println(it) }</code>
+            </li>
+            <li><code>forEachIndexed</code> - Same as forEach, though we also get the index of the element.<br>
+                <code>list.forEachIndexed { index, value<br>
+                 &emsp;    -> println("position $index contains a $value") }</code>
+            </li>
+            <li><code>max</code> - Returns the largest element or null if there are no elements.</li>
+            <li><code>maxBy</code> - Returns the first element yielding the largest value of the given function or null if
+there are no elements.<br>
+                <code>
+                    // The element whose negative is greater<br>
+                     assertEquals(1, list.maxBy { -it })
+                </code>
+            </li>
+            <li><code>min / minBy</code></li>
+            <li><code>none</code> - Returns true if no elements match the given predicate</li>
+            <li><code>reduce</code> - Same as fold, but it doesn’t use an initial value. It accumulates the value applying
+an operation from the first to the last element in a collection.<br>
+                <code>assertEquals(21, list.reduce { total, next -> total + next })</code>
+            </li>
+            <li><code>reduceRight</code></li>
+            <li><code>sumBy</code> - Returns the sum of all values produced by the transform function from the elements
+in the collection.<br>
+                <code>assertEquals(3, list.sumBy { it % 2 })</code>
+            </li>
+        </ul>
+        <p> Filtering operations:</p>
+        <ul>
+            <li><code>drop</code> - Returns a list containing all elements except first n elements<br>
+                <code>assertEquals(listOf(5, 6), list.drop(4))</code>
+            </li>
+            <li><code>dropWhile</code> - Returns a list containing all elements except first elements that satisfy the given
+predicate.</li>
+            <li><code>dropLastWhile</code></li>
+            <li><code>filter</code> - Returns a list containing all elements matching the given predicate.<br>
+                <code>assertEquals(listOf(2, 4, 6), list.filter { it % 2 == 0 })</code>
+            </li>
+            <li><code>filterNot</code> - Returns a list containing all elements not matching the given predicate</li>
+            <li><code>filterNotNull</code> - Returns a list containing all elements that are not null.</li>
+            <li><code>slice</code> - Returns a list containing elements at specified indices.<br>
+                <code>assertEquals(listOf(2, 4, 5), list.slice(listOf(1, 3, 4)))</code>
+            </li>
+            <li><code>take</code> - Returns a list containing first n elements.<br>
+                <code>assertEquals(listOf(1, 2), list.take(2))</code>
+            </li>
+            <li><code>takeLast</code> - Returns a list containing last n elements.</li>
+            <li><code>takeWhile</code> - Returns a list containing first elements satisfying the given predicate.</li>
+        </ul>
+        <p>Mapping operations:</p>
+        <ul>
+            <li><code>flatMap</code> - Iterates over the elements creating a new collection for each one, and finally flattens
+all the collections into a unique list containing all the elements.<br>
+                <code>assertEquals(listOf(1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7), list.flatMap { listOf(it, it + 1) })</code>
+            </li>
+            <li><code>groupBy</code> - Returns a map of the elements in original collection grouped by the result of given
+function<br>
+                <code>assertEquals(mapOf("odd" to listOf(1, 3, 5), "even" to listOf(2, 4, 6)),<br>
+                         &emsp;list.groupBy { if (it % 2 == 0) "even" else "odd" })
+                </code>
+            </li>
+            <li><code>map</code> - Returns a list containing the results of applying the given transform function to each
+element of the original collection.<br>
+                <code>assertEquals(listOf(2, 4, 6, 8, 10, 12), list.map { it * 2 })</code>
+            </li>
+            <li><code>mapIndexed</code> - Returns a list containing the results of applying the given transform function to each
+element and its index of the original collection.
+                <code>assertEquals(listOf (0, 2, 6, 12, 20, 30), list.mapIndexed { index, it
+                        &emsp; -> index * it })</code>
+            </li>
+            <li><code>mapNotNull</code> - Returns a list containing the results of applying the given transform function to each
+non-null element of the original collection
+                <code>assertEquals(listOf(2, 4, 6, 8), listWithNull.mapNotNull { it * 2 })</code>
+            </li>
+        </ul>
+        <p>Elements operations</p>
+        <ul>
+            <li><code>contains</code> - Returns <em>true</em> if the element is found in the collection</li>
+            <li><code>elementAt</code> - Returns an element at the given index or throws an IndexOutOfBoundsException if
+the index is out of bounds of this collection.</li>
+            <li><code>elementAtOrElse</code> - Returns an element at the given index or the result of calling the default function if the index is out of bounds of this collection.<br>
+                <code>assertEquals(20, list.elementAtOrElse(10, { 2 * it }))</code>
+            </li>
+            <li><code>elementAtOrNull</code> - Returns an element at the given index or null if the index is out of bounds of this collection.</li>
+            <li><code>first</code> - Returns the first element matching the given predicate. It will throw a <em>NoSuchElementException</em> if no elements are found.<br>
+                <code>assertEquals(2, list.first { it % 2 == 0 })</code>
+            </li>
+            <li><code>firstOrNull</code> - Returns the first element matching the given predicate, or <em>null</em> if no element was found</li>
+            <li><code>indexOf</code> - Returns the first index of element, or -1 if the collection does not contain element.</li>
+            <li><code>indexOfFirst</code> - Returns index of the first element matching the given predicate, or -1 if the collection does not contain such element.<br>
+                <code>assertEquals(1, list.indexOfFirst { it % 2 == 0 })</code>
+            </li>
+            <li><code>indexOfLast</code> - Returns index of the last element matching the given predicate, or -1 if the collection does not contain such element</li>
+            <li><code>last</code> - Returns the last element matching the given predicate. It will throw a <em>NoSuchElementException</em> if no elements are found.</li>
+            <li><code>lastIndexOf</code> - Returns last index of element, or -1 if the collection does not contain element.</li>
+            <li><code>lastOrNull</code> - Returns the last element matching the given predicate, or null if no such element
+was found. </li>
+            <li><code>single</code> - Returns the single element matching the given predicate, or throws exception if there
+is no or more than one matching element.<br>
+                <code>assertEquals(5, list.single { it % 5 == 0 })</code>
+            </li>
+            <li><code>singleOrNull</code> - Returns the single element matching the given predicate, or null if element was not
+found or more than one element was found.</li>
+        </ul>
+        <p>Generation operations</p>
+        <ul>
+            <li><code>merge</code> - Returns a list of values built from elements of both collections with same indexes using the provided transform function. The list has the length of shortest collection.<br>
+                <code>
+                    val list = listOf(1, 2, 3, 4, 5, 6)<br>
+                    val listRepeated = listOf(2, 2, 3, 4, 5, 5, 6)<br>
+                    assertEquals(listOf(3, 4, 6, 8, 10, 11), list.merge(listRepeated) { it1, it2 -><br>
+                    &emsp;    it1 + it2 })
+                </code>
+            </li>
+            <li><code>partition</code> - Splits original collection into pair of collections, where the first collection contains elements for which the predicate returned true, while the second collection contains elements for which the predicate returned false<br>
+                <code>assertEquals(Pair(listOf(2, 4, 6), listOf(1, 3, 5)),<br>
+                        &emsp; list.partition { it % 2 == 0 })</code>
+            </li>
+            <li><code>plus</code> - Returns a list containing all elements of the original collection and then all elements
+of the given collection. Because of the name of the function, we can use the ‘+’ operator with it<br>
+                <code>assertEquals(listOf(1, 2, 3, 4, 5, 6, 7, 8), list + listOf(7, 8))</code>
+            </li>
+            <li><code>zip</code> - Returns a list of pairs built from the elements of both collections with the same indexes. The list has the length of the shortest collection.<br>
+                <code>assertEquals(listOf(Pair(1, 7), Pair(2, 8)), list.zip(listOf(7, 8)))</code>
+            </li>
+            <li><code>unzip</code> - Generates a <code>Pair</code> of <code>Lists</code> from a <code>List</code> of <code>Pairs</code><br>
+                <code>assertEquals(Pair(listOf(5, 6), listOf(7, 8)), listOf(Pair(5, 7), Pair(6, 8)).unzip())</code>
+            </li>
+        </ul>
+        <p>Ordering operations</p>
+        <ul>
+            <li><code>reverse</code> - Returns a list with elements in reversed order<br>
+                <code>val unsortedList = listOf(3, 2, 7, 5)<br>
+                     assertEquals(listOf(5, 7, 2, 3), unsortedList.reverse())</code>
+            </li>
+            <li><code>sort</code> - Returns a sorted list of all elements<br>
+                <code>assertEquals(listOf(2, 3, 5, 7), unsortedList.sort())</code>
+            </li>
+            <li><code>sortBy</code> - Returns a list of all elements, sorted by the specified comparator.<br>
+                <code>assertEquals(listOf(3, 7, 2, 5), unsortedList.sortBy { it % 3 })</code>
+            </li>
+            <li><code>sortDescending</code> - Returns a sorted list of all elements, in descending order.</li>
+            <li><code>sortDescendingBy</code> - Returns a sorted list of all elements, in descending order by the results of the specified order function.</li>
+        </ul>
+    </li>
+    <li><code>val myLong = a?.toLong() ?: return false</code><br>
+        <code>val myLong = a?.toLong() ?: throw IllegalStateException()</code>
+    </li>
+    <li><code>val z = if (condition) x else y</code></li>
+    <li>In Kotlin, an inline function can be <code>reified</code>, which means we can get and use the class of the generic type inside the function.</li>
+    <li>Kotlin interfaces, on the other hand, are able to implement functions. </li>
+    <li>The delegation is a really useful pattern that can be used to extract responsibilities from a class.<br>
+        <code>
+        interface CanFly {<br>
+        &emsp;     fun fly()<br>
+        }<br>
+        <br>
+        class Bird(f: CanFly) : CanFly by f<br>
+    </code>
+    </li>
+    <li> Instead of long wildcards, Kotlin just uses <strong>out</strong> for covariance and <strong>in</strong> for contravariance. <br>
+        <code>
+            class TypedClass &#x276C;out T&#x276D;() {<br>
+&emsp; fun doSomething(): T {<br>
+&emsp; ...<br>
+&emsp; }<br>
+ }
+
+        </code>
+     </li>
+     <li><code>apply</code> can be used to avoid the creation of builders, because the object that calls the function can initialise itself the way it needs, and the apply function will return the same object<br>
+        <code>
+            val textView = TextView(context).apply {<br>
+&emsp; text = "Hello"<br>
+&emsp; hint = "Hint"<br>
+&emsp; textColor = android.R.color.white<br>
+ }
+
+        </code>
+     </li>
+     <li>Coroutines are a way to write asynchronous code sequentially. Some of them will have the ability to suspend the execution and wait until the result is available.
+        <p>Coroutines are based on the idea of suspending functions: functions that can stop the execution when they are called and make it continue once it has finished running their background task.</p>
+     </li>
+     <li>We can use backquotes for function name. This is because function name is a reserved word in Kotlin, so we need to escape it if we find some Java code that uses it.</li>
+     <li> If we want access to the members of the outer class, we need to declare it as an <em>inner</em> class.</li>
+     <li>Sealed classes are used to represent restricted class hierarchies, which means that the number of classes that extend a sealed class is fixed. It’s similar to an Enum in the sense that you can know beforehand the options you have when looking at the specific type of an object of the parent sealed class. The difference is that enum instances are unique, while sealed classes can have multiple instances which can contain different states.</li>
+</ul>
 </body>
 </html>
