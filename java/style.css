@@ -1,0 +1,51 @@
+body{
+	background-color:lightblue;
+	margin:40px 100px;
+}
+dt{
+	font-size:30px;
+}
+dd{
+	font-style:italic;
+	font-size:20px;
+}
+p,ul,ol{
+	font-size:20px;
+}
+.code{
+	font-size:16px;
+	font-family: courier;
+}
+code{
+	font-size:16px;
+	font-family: courier;
+}
+td, th,tr {
+    border: 1px solid black;
+    text-align: left;
+    font-size:20px;
+}
+caption{
+	border: 1px solid black;
+    text-align: center;
+    font-size:20px;
+}
+.buitem{
+	font-size:20px; 
+	text-decoration: underline;
+}
+.list1{
+	background-color: #c6f97a;
+	border: 2px solid #587035;
+	border-radius: 5px;
+	width:300px;
+	text-align:left;
+	
+	font-style: italic;
+}
+.centr{
+	text-align: center;
+}
+.arr-bottom{
+	padding-left:250px;
+}

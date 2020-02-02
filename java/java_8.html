@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Java 8</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+		
+		<h1>Java 8</h1>
+		<div class="list1">
+			<p>&emsp;&emsp;&emsp;&emsp;Зміст</p>
+			<ol>
+				<li><a href="#it1">Lambda expressions</a></li>
+				<li><a href="#it2">Посилання на методи</a></li>
+				<li><a href="#it3">Функціональні інтерфейси</a></li>
+				<li><a href="#it4">Default Method</a></li>
+				<li><a href="#it5">Streams</a></li>
+				<li><a href="#it6">Optional class</a></li>
+				
+			</ol>
+		</div>
+		<dl>
+			<dt id="it1">Lambda expressions</dt>
+			<dd>
+				імплементація функціонального інтерфейсу,<br>
+				заміна анонімних класів,<br>
+				походить з функціонального програмування<br>
+				дозволяє паралельну обробку даних<br> 
+				<p class="code">
+				interface MathOperation{<br>
+				&emsp;	int operation(int a,int b);<br>
+				}<br>
+				MsthOperation addition=(a,b)->a+b;<br>
+				addition.operation(7,4);<br>
+				</p>
+			</dd>
+			<dt id="it2">Посилання на методи</dt>
+			<dd>
+				<ol>
+					<li>статичні методи</li>
+					<li>методи класу, що доступні тільки через об'єкт класу</li>
+					<li>конструктор (Treeset::new)</li>
+				</ol>
+				<p class="code">
+				 List names = new ArrayList();<br>
+		
+     			 names.add("Mahesh");<br>
+      			 names.add("Suresh");<br>
+      
+      			 names.forEach(System.out::println);<br>
+      			 (MethodReferenceExample::printMessage) == (()->printMessage())<br>
+				</p>
+			</dd>
+			<dt id="it3">Функціональні інтерфейси</dt>
+			<dd>
+				<ul style = "list-style-type: circle;">
+					<li>Consumer&lt;T&gt; - приймає аргумент, не повертає нічого</li>
+					<li>Predicate&lt;T&gt;-повертає true/false</li>
+					<li>Supplier&lt;T&gt;-повертає результат,не приймає аргументів</li>
+					<li>Function&lt;T,R&gt;-приймає аргумент і повертає результат</li>
+					<li>ToDoubleBiFunction&lt;T,U&gt;- приймає два аргументи і повертає результат</li>
+				</ul>
+				@FunctionalInterface<br>
+			</dd>
+			<dt id="it4">Default methods</dt>
+			<dd>
+				<p>
+					Для того, щоб старі інтерфейси могли застосовуватися з використанням можливостей lambda-виразів. Інтерфейс може мати також допоміжні статичні методи.
+				</p>
+				<p class="code">
+				public interface vehicle{<br>
+				&emsp;	default void print(){<br>
+				&emsp;&emsp;		System.out.println("I am tired");<br>
+				&emsp;	}<br>
+				}<br>
+				</p>
+			</dd>
+			<dt id="it5">Streams</dt>
+			<dd>
+				<p>
+				Послідовність об'єктів з ресурсу, який підтримує агригуючі функції.
+				</p>
+				<dl style = "list-style-type: circle;">
+					<dt>forEach</dt>
+					<dd>
+						<p class="code">
+						Random random =new Random();<br>
+						random.ints().limit(10).forEach(System.out::println);
+						</p>
+					</dd>
+					<dt>map</dt>
+					<dd>
+						<p>
+						Ставить у відповідність кожному елементу відповідний результат.
+						</p>
+						<p class="code">
+						List&lt;Integer&gt; numbers=Arrays.asList(3,2,2,3,7,3,5);<br>
+						List&lt;Integer&gt; squaresList=numbers.stream().map(i->i*i).distinct().collect(Collectors.toList());
+						</p>
+					</dd>
+					<dt>filter</dt>
+					<dd>
+						<p>
+						Відхиляємо елемент базуючись на умові.
+						</p>
+						<p class="code">
+						List<String>strings = Arrays.asList("abc", "", "bc", "efg", "abcd","", "jkl");
+						<br>
+						int count = strings.stream().filter(string -> string.isEmpty()).count();
+						</p>
+					</dd>
+					<dt>limit</dt>
+					<dd>
+						<p>
+							Зменшення розміру потоку
+						</p>
+					</dd>
+					<dt>sorted</dt>
+					<dd>
+						<p class="code">
+						Random random = new Random();<br>
+						random.ints().limit(10).sorted().forEach(System.out::println);
+						</p>
+					</dd>
+					<dt>Collectors</dt>
+					<dd>
+						<p>
+							Повертає список або рядок
+						</p>
+						<p class="code">
+							List<String>strings = Arrays.asList("abc", "", "bc", "efg", "abcd","", "jkl");<br>
+							String mergedString = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.joining(", "));
+						</p>
+					</dd>
+					<dt>Statistics</dt>
+					<dd>
+						<p class="code">
+						List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);<br>
+
+						IntSummaryStatistics stats = integers.stream().mapToInt((x) -> x).summaryStatistics();<br>
+
+						System.out.println("Highest number in List : " + stats.getMax());<br>
+						System.out.println("Lowest number in List : " + stats.getMin());<br>
+						System.out.println("Sum of all numbers : " + stats.getSum());<br>
+						System.out.println("Average of all numbers : " + stats.getAverage());<br>
+						</p>
+					</dd>
+				</ul>
+			</dd>
+			<dt id="it6">Optional class</dt>
+			<dd>
+				<p>
+					Контейнер для зберігання not-null об'єктів.<br>
+					null -> відсутнє значення
+				</p>
+				<p class="code">
+					import java.util.Optional;<br>
+
+public class Java8Tester {<br>
+&emsp;   public static void main(String args[]){<br>
+   
+ &emsp;&emsp;     Java8Tester java8Tester = new Java8Tester();<br>
+&emsp;&emsp;      Integer value1 = null;<br>
+ &emsp;&emsp;     Integer value2 = new Integer(10);<br>
+		
+ &emsp;&emsp;     //Optional.ofNullable - allows passed parameter to be null.<br>
+  &emsp;&emsp;    Optional<Integer> a = Optional.ofNullable(value1);<br>
+		
+  &emsp;&emsp;    //Optional.of - throws NullPointerException if passed parameter is null<br>
+ &emsp;&emsp;     Optional<Integer> b = Optional.of(value2);<br>
+  &emsp;&emsp;    System.out.println(java8Tester.sum(a,b));<br>
+ &emsp;  }<br>
+	
+ &emsp;  public Integer sum(Optional<Integer> a, Optional<Integer> b){<br>
+	
+ &emsp;&emsp;     //Optional.isPresent - checks the value is present or not<br>
+		
+ &emsp;&emsp;     System.out.println("First parameter is present: " + a.isPresent());<br>
+ &emsp;&emsp;     System.out.println("Second parameter is present: " + b.isPresent());<br>
+		
+ &emsp;&emsp;     //Optional.orElse - returns the value if present otherwise returns<br>
+  &emsp;&emsp;    //the default value passed.<br>
+&emsp;&emsp;      Integer value1 = a.orElse(new Integer(0));<br>
+		
+&emsp;&emsp;      //Optional.get - gets the value, value should be present<br>
+ &emsp;&emsp;     Integer value2 = b.get();<br>
+ &emsp;&emsp;     return value1 + value2;<br>
+&emsp;   }<br>
+}<br>
+				</p>
+			</dd>
+		</dl>
+		<a href="algorithms.html"><img src="images/next.png" width="200px" height="150px"></a>
+	</body>
+</html>	

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Java Core</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+	<div class="list1">
+			<p>&emsp;&emsp;&emsp;&emsp;Зміст</p>
+			<ol>
+				<li><a href="#it1">Інтерфейс чи абстрактний клас</a></li>
+				<li><a href="#it2">Внутрішні класи</a></li>
+				<li><a href="#it3">Колекції</a>
+					<ol>
+						<li><a href="#jit1">Interface</a></li>
+						<li><a href="#jit2">Map</a></li>
+						<li><a href="#jit3">How hashmap works</a></li>
+						<li><a href="#jit4">List</a></li>
+						<li><a href="#jit5">Set</a></li>
+						<li><a href="#jit6">Queue</a></li>
+					</ol>
+				</li>
+				<li><a href="#it4">Generics</a></li>
+				<li><a href="#it5">Вийнятки</a></li>
+				<li><a href="#it6">Файли</a></li>
+			</ol>
+		</div>
+	<h1 id="it1">Інтерфейс чи абстрактний клас</h1>
+	<table>
+		<tr>
+			<th>Abstract class</th>
+			<th>Interface</th>
+		<tr>
+		<tr>
+			<td> can extend only one class or one abstract class at a time</td>
+			<td>can extend any number of interfaces at a time</td>
+		<tr>
+		<tr>
+			<td> can  have  both  abstract and concrete methods</td>
+			<td> can  have only abstract methods</td>
+		<tr>
+		<tr>
+			<td>In abstract class keyword ‘abstract’ is mandatory to declare a method as an abstract</td>
+			<td>In an interface keyword ‘abstract’ is optional to declare a method as an abstract</td>
+		<tr>
+		<tr>
+			<td>can have  protected , public and public abstract methods</td>
+			<td>can have only public abstract methods i.e. by default</td>
+		<tr>
+		<tr>
+			<td>can have  static, final  or static final  variable with any access specifier</td>
+			<td>can  have only static final (constant) variable i.e. by default</td>
+		<tr>
+		<tr>
+			<td> can  have constructor,non abstract method , main method</td>
+			<td> cannot have Constructor, non abstract method and main method.</td>
+		</tr>
+	</table>
+	<p>Abstract class cannot be instantiated.</p>
+	<h1 id="it2">Внутрішні класи</h1>
+	<img src="images/inner_classes.jpg">
+	<p>Внутрішній клас може бути private. Може використовуватися як механізм захисту і для доступу до приватних полів зовнішнього класу.</p>
+	<code>
+		Outer_Demo outer = new Outer_Demo();<br>
+		Outer_Demo.Inner_Demo inner = outer.new Inner_Demo();
+	</code>
+	<p>Можна оголошувати клас в методі і він буде доступним тільки в ньому.</p>
+	<p>Анонімний клас - оголошений без імені.Оголошується і ініціалізується одночасно. Зазвичай застосовується коли потрібно перевантажити метод класу чи інтерфейсу. Можна кинути як аргумент методу( оголошення - в виклику).</p>
+	<code>
+	abstract class AnonymousInner {<br>
+	&emsp;   public abstract void mymethod();<br>
+	}<br>
+
+	public class Outer_class {<br>
+
+   	&emsp;	public static void main(String args[]) {<br>
+     &emsp;&emsp; 		AnonymousInner inner = new AnonymousInner() {<br>
+     &emsp;&emsp;    	public void mymethod() {<br>
+      &emsp;&emsp;&emsp;      	System.out.println("This is an example of anonymous inner class");<br>
+      &emsp;&emsp;   	}<br>
+      &emsp;&emsp;		};<br>
+     &emsp; 	inner.mymethod();	<br>
+   	&emsp;	}<br>
+	}
+	</code>
+	<pre>
+	<code>
+Outer_class.this //- reference from inner class to outer
+	</code>
+	</pre>
+	<p>
+	If you’re defining an anonymous inner class and want to use an object that’s defined outside the anonymous inner class, the compiler requires that the argument reference be final.  
+	</p>
+	<p>
+	You can’t have a named constructor in an anonymous class (since there’s no name!), but with instance initialization, you can, in effect, create a constructor for an anonymous inner class(instance initializer - {int i=0;}).
+	</p>
+	<p>Nested class can be part of an interface. </p>
+	<p>
+	Each inner class can independently inherit from an implementation. Thus, the inner class is not limited by whether the outer class is already inheriting from an implementation. 
+	</p>
+	<p>
+	That is, inner classes effectively allow you to inherit from more than one non-interface. (abstract or concrete classes)
+	</p>
+	<p>Inheriting from inner classes </p>
+	<pre>
+	<code>
+class WithInner { 
+  class Inner {} 
+} 
+ 
+public class InheritInner extends WithInner.Inner { 
+  //! InheritInner() {} // Won’t compile 
+  InheritInner(WithInner wi) { 
+    wi.super(); 
+  } 
+  public static void main(String[] args) { 
+    WithInner wi = new WithInner(); 
+    InheritInner ii = new InheritInner(wi); 
+  } 
+} 
+	</code>
+	</pre>
+	<p>An inner class cannot be overriden like a method. </p>
+	<h1 id="it3">Колекції</h1>
+	<h2 id="jit1">1. Interface</h2>
+	<img src="images/coll1.png">
+	<h2 id="jit2">2. Map</h2>
+	<img src="images/coll2.png">
+	<ul>
+		<li>Hashtable - гештаблиця,synchronized,will not allow null key or value, enumerator and iterator.</li>
+		<li>HashMap - альтернатива Hashtable,не синхронізована,permits one null key and multiple null values,iterator. Two objects cannot have the same key.</li>
+		<li>LinkedHashMap-впорядкована</li>
+		<li>TreeMap - впорядкована на основі червоно-чорних дерев. Сортування по ключу.</li>
+		<li>WeakHashMap - якщо немає прямої ссилки, gc збирає</li>
+		<li>IdentityHashMap -  A hash map that uses == instead of equals( ) to compare keys.</li>
+	</ul>
+	<h2 id="jit3">3. How hashmap works</h2>
+	<ul>
+		<li>works based on the hashing principle </li>
+		<li>Hashing is the mechanism of assigning the unique code to a variable or attribute using some algorithm to enable easy retrieval. </li>
+		<li> transient Entry[] table;</li>
+		<li>The HashMap has an inner class called as Entry Class.
+		<br>
+		<pre>
+		<code>
+			
+ static class Entry<K,V> implements Map.Entry&lt;K,V> 
+ {
+     final K key;
+     V value;
+     Entry&lt;K,V> next;
+     final int hash;
+     ........
+ }
+		</code>
+		</pre>
+		</li>
+		<li>Put Operation:if the given key is null it will be stored in the ‘0’th position as the hashcode of null will be zero.</li>
+		<li>Put Operation:Using this different objects with the same hashcode will be placed next to each other. if next attribute is not null then HashMap keeps the loop running till next attribute is null then stores the Entry object there.</li>
+		<li>Get Operation: it gets the hashcode of the key object which is passed and finds the bucket location.Found -> value,not found->null. </li>
+		<li>Get Operation:If two keys have the same hashcode,the collision resolution mechanism will be used here  key.equals(k)  will check until it is true</li>
+	</ul>
+	<p>
+		<strong>Розв'язання колізій</strong>
+	</p>
+	<figure>
+		<img src="images/380px-Hash_table_5_0_1_1_1_1_1_LL.svg.png">
+		<figcaption>Розв'язання колізій за допомогою ланцюжків.</figcaption>
+	</figure>
+	<figure>
+		<img src="images/380px-Hash_table_5_0_1_1_1_1_0_SP.svg.png">
+		<figcaption>Приклад розв'язку колізій в геш-таблиці з відкритою адресацією та лінійним перебором (інтервал = 1).Коли додається новий запис, масив перевіряється в певному порядку, доки не буде знайдена вільна комірка, куди буде доданий елемент.Назва «відкрита адресація» показує, що положення(«адреса») елемента не визначається його геш-значенням. Цей метод також називають закритим гешуванням. </figcaption>
+	</figure>	
+	<h2 id="jit4">4. List</h2>
+	<img src="images/coll3.png">
+	<ul>
+		<li>Vector - синхронізована,реалізує динамічний масив обєктів</li>
+		<li>Stack - LIFO</li>
+		<li>ArrayList - аналог Vector, несинхронізована. A Vector defaults to doubling the size of its array, while the ArrayList increases its array size by 50 percent.</li>
+		<li>LinkedList - двонапрямлений звязний список</li>
+		
+	</ul>
+	<h2 id="jit5">5. Set</h2>
+	<img src="images/coll4.png">
+	<p>must define equals();</p>
+	<ul>
+		<li>HashSet - на основі HashMap. Whenever you create a HashSet object, one HashMap object associated with it is also created.  The elements you add into HashSet are stored as keys of this HashMap object. The value associated with those keys will be a constant.</li>
+		<li>LinkedHashSet</li>
+		<li>TreeSet</li>
+	</ul>
+	<h2 id="jit6">6. Queue</h2>
+	<img src="images/coll5.png">
+	<ul>
+		<li>PriorityQueue - реалізація інтерфейсу Queue</li>
+		<li>ArrayDeque-LIFO,  With a double ended queue, you can add things to either end, and take them from either end.</li>
+	</ul>
+	<h1 id="it4">Generics</h1>
+	<ul>
+		<li>клас</li>
+		<li>інтерфейс</li>
+		<li>метод</li>
+	</ul>	
+	<p class="code">class Bus&lt;T&gt;<br>
+	public &lt;T> void func(T x)  
+
+	</p>
+	<p>Контраваріантність і коваріантність-способи перенесення наслідування типів на нові типи параметризовані попередніми (контейнери, узагальнені типи, делегати).</p>
+	<ul>
+	<li>Контраваріантність</li>
+	<p class="code">Consumer&lt;? super X&gt;</p>
+	<!-- <p>Can hold every class that extends X</p> -->
+	<li>Коваріантність</li>
+	<p class="code">Producer&lt;? extends X&gt;</p>
+	<p>коваріантним — якщо він зберігає порядок типів (від похідних до базового);</p>
+	</ul>
+	<p>
+		Якщо типи Cat та Dog наслідують тип Animal, конструктором масивів з типу Animal утворимо тип Animal[] ("масив звірів"). Ми можемо використовувати його:
+		<br>
+		коваріантно: вважаючи що Cat[] є представником Animal[]<br>
+		контраваріантно: вважаючи що Animal[] є представником Cat[]<br>
+	</p>
+	<code>Holder //raw type, може зберігати комбінацію різних типів<br>
+	Holder&lt;?> // unbounded wildcard, зберігає однорідну колекцію деякого специфічного типу
+	</code>
+	<p>Issues:</p>
+	<ul>
+		<li>не приймає примітиви</li>
+		<li>IInterface&lt;String> and IInterface&lt;Integer> the same at runtime(erasure)</li>
+		<li>instanceof doesn't work</li>
+		<li> following overloading doesn't work<br>
+		<pre><code>public class UseList&lt;W,T> { 
+  void f(List&lt;T> v) {} 
+  void f(List&lt;W> v) {} 
+}</code></pre>
+		</li>
+	</ul>
+	<h1 id="it5">Вийнятки</h1>
+	<img src="images/exceptions.jpg">
+	<p> <em>throws</em> is used to postpone the handling of a checked exception and <em>throw</em> is used to invoke an exception explicitly.</p>
+	<p class="code">public class FooException extends Exception </p>
+	<p class="code">public class FooException implements Throwable </p>
+	<p>The differences between checked and unchecked exceptions are:</p>
+	<ol>
+		<li>Checked exceptions must be explicitly caught or propagated as described in Basic try-catch-finally Exception Handling. </li>
+		<li>Checked exceptions in Java extend the java.lang.Exception class. Unchecked exceptions extend the java.lang.RuntimeException.</li>
+	</ol>
+	<h1 id="it6">Файли</h1>
+	<p>Всі класи, що мають справу з вхідними даними унаслідують InputStream, вихідними - OutputStream.</p>
+	<p>Types of InputStream</p>
+	<table>
+		<tr>
+			<th>Назва</th>
+			<th>Опис</th>
+			<th>OutputStream аналог</th>
+		</tr>
+		<tr>
+			<td>ByteArrayInputStream</td>
+			<td>буффер в пам'яті як InputStream</td>
+			<td>ByteArrayOutputStream</td>
+		</tr>
+		<tr>
+			<td>StringBufferInputStream</td>
+			<td>конвертує String в InputStream</td>
+			<td>-</td>
+		</tr>
+		<tr>
+			<td>FileInputStream</td>
+			<td>зчитання інформації з файлу</td>
+			<td>FileOutputStream</td>
+		</tr>
+		<tr>
+			<td>PipedInputStream</td>
+			<td>надає дані, які записуються в асоційований PipedOutputSream</td>
+			<td>PipedOutputStream</td>
+		</tr>
+		<tr>
+			<td>SequenceInputStream</td>
+			<td>конвертує два або більше обєкти InputStream в один</td>
+			<td>-</td>
+		</tr>
+		<tr>
+			<td>FilterInputStream</td>
+			<td>абстрактний клас, що надає додаткову функціональність іншим класам InputStream</td>
+			<td>FilterOutputStream</td>
+		</tr>
+	</table>
+	<p>Найчастіше вживаються класи FileInputStream та FileOutputStream (read,write) - Byte Streams (input and output of 8-bit bytes).</p>
+	<p>Найчастіше вживаються класи  FileReader та FileWriter (read,write) - Character Streams (input and output of 16-bit unicode) (support Unicode encoding). Використовують вище зазначені класи.</p>
+	<p> ByteArrayInputStream class allows a buffer in the memory to be used as an InputStream.The DataInputStream is used in the context of DataOutputStream and can be used to read primitives.</p>
+	<p>java.nio.* - for speed (uses structures like channels and buffers).</p>
+	<table>
+		<tr>
+			<th>IO</th>
+			<th>NIO</th>
+		</tr>
+		<tr>
+			<td>Потокоорієнтований</td>
+			<td>Буфер-орієнтований</td>
+		</tr>
+		<tr>
+			<td>Блокуючийся(синхронний) ввід/вивід</td>
+			<td>Неблокуючийся(асинхронний) ввід/вивід</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>Селектори</td>
+		</tr>
+	</table>
+	<p class="code">File d = new File(dirname);<br>
+      d.mkdirs();</p>
+      <p>Externalizable implements Serializable and allows to controll the process of serialization(two methods - writeExternal(),readExternal())</p>
+	<a href="multithreading.html"><img src="images/next.png" width="200px" height="150px"></a>
+	</body>
+</html>
