@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Testing</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Unit testing fundamentals</h1>
+	<ul>
+		<li>Tests con only be run inside class</li>
+		<li>@Before - runs before every test<br>
+			<code>
+				@Before<br>
+    			public void setup(){<br>
+        			&emsp;//TODO put some code here<br>
+    			}<br>
+			</code>
+		</li>
+		<li><code>
+			@Test<br>
+    		public void reverse_emptyString_emptyStringReturned() throws Exception {<br>
+        	&emsp;	String result = SUT.reverse("");<br>
+        	&emsp;	assertThat(result, is(""));<br>
+    		}<br>
+
+		</code></li>
+		<li>Naming - &#60;unitOfWork&#62;_ &#60;stateUnderTest&#62;_ &#60;expectedBehavior&#62;</li>
+		<li>Test doubles<br>
+			<dl>
+				<dt>Fake</dt>
+				<dd>Functional substitution for real unit. Optimized for test.</dd>
+				<dt>Stub</dt>
+				<dd>Returns pre-defined data. Returned data is tailred for test needs.</dd>
+				<dt>Mock</dt>
+				<dd>Records interactions with itself during test. Recorded interactions can be inspected.</dd>
+			</dl>
+		</li>
+		<li>Static methods cannot be substituted with test doubles.</li>
+		<li>Singletons should be avoided at all costs.</li>
+	</ul>
+	<h1>Mockito</h1>
+	<ul>
+		<li>
+			<code>SomeClass testClass = mock(SomeClass.class);</code>
+		</li>
+		<li>
+			<code>
+				when(mUpdateUsernameHttpEndpointSyncMock.updateUsername(anyString(), anyString()))<br>
+                &emsp;.thenReturn(new EndpointResult(EndpointResultStatus.SUCCESS, USER_ID, USERNAME));
+			</code>
+		</li>
+		<li>
+			<code>
+				ArgumentCaptor&#60;String> ac = ArgumentCaptor.forClass(String.class);<br>
+        SUT.updateUsernameSync(USER_ID, USERNAME);<br>
+        verify(mUpdateUsernameHttpEndpointSyncMock, times(1)).updateUsername(ac.capture(), ac.capture());<br>
+        List&#60;String> captures = ac.getAllValues();<br>
+        assertThat(captures.get(0), is(USER_ID));
+			</code>
+		</li>
+		<li>
+			<code>
+				verifyNoMoreInteractions(mUsersCacheMock);
+			</code>
+		</li>
+		<li>
+			<code>
+		        doThrow(new NetworkErrorException())<br>
+                &emsp;.when(mUpdateUsernameHttpEndpointSyncMock).updateUsername(anyString(), anyString());
+
+			</code>
+		</li>
+	</ul>
+	<h1>TDD</h1>
+	<p>Three rules of TDD:</p>
+	<ul>
+		<li>You are not allowed to write any production code unless it is to make a failing unit test pass.</li>
+		<li>You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures</li>
+		<li>You are not allowed to write any more production code than is sufficient to pass the one failing unit test</li>
+	</ul>
+</body>
+</html>
