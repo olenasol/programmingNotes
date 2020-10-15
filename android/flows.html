@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<title>Flow API</title>
+	</head>
+	<body>
+	<h1>Flow API</h1>
+    <p>With Flow in Kotlin now you can handle a stream of data that emits values sequentially.</p>
+    <p>The code inside a flow builder does not run until the flow is collected.</p>
+    <ul>
+        <li>Simple example:<br>
+            <code>fun simple(): Flow&lt;Int&gt; = flow { // flow builder<br>
+            &emsp;for (i in 1..3) {<br>
+            &emsp;&emsp;    delay(100) // pretend we are doing something useful here<br>
+            &emsp;&emsp;    emit(i) // emit next value<br>
+            &emsp;}<br>
+        }<br>
+        <br>
+        fun main() = runBlocking&lt;Unit&gt; {<br>
+            &emsp;// Launch a concurrent coroutine to check if the main thread is blocked<br>
+            &emsp;launch {<br>
+            &emsp;&emsp;for (k in 1..3) {<br>
+            &emsp;&emsp;&emsp;println("I'm not blocked $k")<br>
+            &emsp;&emsp;&emsp;delay(100)<br>
+            &emsp;&emsp;}<br>
+            &emsp;}<br>
+            &emsp;// Collect the flow<br>
+            &emsp;simple().collect { value -> println(value) } <br>
+            </code>
+        </li>
+        <li>Cancellation after timeout:<br>
+        <code>
+            withTimeoutOrNull(250) { // Timeout after 250ms <br>
+            &emsp;simple().collect { value -> println(value) } <br>
+            }
+        </code>
+        </li>
+        <li>Other flow builders
+            <ul>
+                <li>flowOf</li>
+                <li>asFlow()</li>
+            </ul>
+        </li>
+        <li>Flow operators: <br>
+            <ul>
+                <li>map, filter</li>
+                <li>transform</li>
+                <li>take(size limiting), first, single</li>
+                <li>toList, toSet</li>
+                <li>reduce, fold</li>
+            </ul>
+        </li>
+    </ul>
+	</body>
+</html>
